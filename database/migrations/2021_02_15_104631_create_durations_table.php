@@ -39,7 +39,7 @@ class CreateDurationsTable extends Migration
                 ->comment('evaluation reference')
                 ->constrained('evaluations')->onDelete('set null');
 
-            $table->integer('evaluation_posi')->default(0)->comment('duration position in evaluation durations list');
+            $table->integer('duration_posi')->default(0)->comment('duration position in evaluation durations list');
 
             $table->string('description')->nullable()->comment('description of the duration');
         });

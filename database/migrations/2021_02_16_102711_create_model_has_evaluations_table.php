@@ -5,12 +5,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Traits\Migrations\BaseMigrationTrait;
 
-class CreateGradesTable extends Migration
+class CreateModelHasEvaluationsTable extends Migration
 {
     use BaseMigrationTrait;
 
-    public $table_name = 'grades';
-    public $table_comment = 'list of grades';
+    public $table_name = 'model_has_evaluations';
+    public $table_comment = 'list of evaluations for a given model';
 
     /**
      * Run the migrations.
@@ -21,21 +21,16 @@ class CreateGradesTable extends Migration
     {
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->id();
-            $table->baseFields();
-
-            $table->foreignId('grade_unit_id')->nullable()
-                ->comment('grade unit reference')
-                ->constrained('grade_units')->onDelete('set null');
-
-            $table->integer('value')->nullable()->comment('grade value expressed in the unit');
 
             $table->foreignId('evaluation_id')->nullable()
                 ->comment('evaluation reference')
                 ->constrained('evaluations')->onDelete('set null');
 
-            $table->integer('grade_posi')->default(0)->comment('grade position in evaluation grades list');
+            $table->string('model_type')->comment('type of referenced model');
+            $table->bigInteger('model_id')->comment('model reference');
 
-            $table->string('description')->nullable()->comment('description of the grade');
+            $table->integer('posi')->default(0)->comment('evaluation position in evaluations list.');
+            $table->timestamps();
         });
         $this->setTableComment($this->table_name,$this->table_comment);
     }
@@ -48,8 +43,6 @@ class CreateGradesTable extends Migration
     public function down()
     {
         Schema::table($this->table_name, function (Blueprint $table) {
-            $table->dropBaseForeigns();
-            $table->dropForeign(['grade_unit_id']);
             $table->dropForeign(['evaluation_id']);
         });
         Schema::dropIfExists($this->table_name);

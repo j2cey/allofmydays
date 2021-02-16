@@ -71,5 +71,14 @@ class GradeUnit extends BaseModel implements Auditable
 
     #region Custom Functions
 
+    public function getOriginUnit() {
+        $unitparent = $this->unitparent;
+        if ($unitparent) {
+            return $unitparent->getOriginUnit();
+        } else {
+            return $this;
+        }
+    }
+
     #endregion
 }

@@ -17,9 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $tags
  *
  * @property integer $value
- * @property integer|null $grade_unit_id
  * @property integer|null $evaluation_id
- * @property integer $evaluation_posi
+ * @property integer $grade_posi
  * @property string $description
  *
  * @property Carbon $created_at
@@ -59,10 +58,6 @@ class Grade extends BaseModel implements Auditable
     #endregion
 
     #region Eloquent Relationships
-
-    public function unit() {
-        return $this->belongsTo(GradeUnit::class, 'grade_unit_id');
-    }
 
     public function evaluation() {
         return $this->belongsTo(Evaluation::class, 'evaluation_id');

@@ -17,10 +17,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $tags
  *
  * @property Carbon $start_at
- * @property Carbon $end_at
+ * @property Carbon|null $end_at
  *
  * @property integer|null $evaluation_id
- * @property integer $evaluation_posi
+ * @property integer $duration_posi
  * @property string $description
  *
  * @property integer|null $elapsetime_ticks
@@ -77,6 +77,11 @@ class Duration extends BaseModel implements Auditable
     #endregion
 
     #region Custom Functions
+
+    public function setEnd() {
+        $this->end_at = Carbon::now();
+        $this->save();
+    }
 
     #endregion
 }
