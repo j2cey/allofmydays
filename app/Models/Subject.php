@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Code\HasCode;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $uuid
  * @property bool $is_default
  * @property string|null $tags
+ * @property integer|null $status_id
  *
  * @property string $title
  * @property string $code
@@ -31,7 +33,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Subject extends BaseModel implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasCode, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
 
@@ -53,7 +55,6 @@ class Subject extends BaseModel implements Auditable
 
         ]);
     }
-
     public static function messagesRules() {
         return [
 
@@ -75,6 +76,18 @@ class Subject extends BaseModel implements Auditable
     #endregion
 
     #region Custom Functions
+
+    public function setCategory($id) {
+        $category = Category::where('id', $id)->first();
+        if ($category) {
+            $this->category()->associate($category);
+            $this->save();
+
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 
     #endregion
 }

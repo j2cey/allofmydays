@@ -18,7 +18,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property integer $nb_todo
  * @property integer $nb_done
+ * @property integer $rate
  * @property integer $curr_value
+ * @property boolean $exec_done
+ *
+ * @property string|null $model_type
+ * @property integer|null $model_id
+ *
  * @property string|null $description
  *
  * @property Carbon $created_at

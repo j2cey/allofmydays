@@ -26,6 +26,12 @@ class CreateProgressionsTable extends Migration
             $table->integer('nb_todo')->default(0)->comment('number of things to do');
             $table->integer('nb_done')->default(0)->comment('number of things done');
             $table->integer('curr_value')->default(0)->comment('current value');
+            $table->boolean('exec_done')->default(false)->comment('determine if the execution is done');
+            $table->integer('rate')->default(0)->comment('the rate of the progression');
+
+            $table->string('model_type')->nullable()->comment('type of referenced model');
+            $table->bigInteger('model_id')->comment('model reference');
+
             $table->string('description')->nullable()->comment('description of the progression');
         });
         $this->setTableComment($this->table_name,$this->table_comment);

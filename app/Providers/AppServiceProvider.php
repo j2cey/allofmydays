@@ -5,7 +5,11 @@ namespace App\Providers;
 use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Repositories\Eloquent\SubjectRepository;
+use App\Repositories\Contracts\IUserRepositoryContract;
+use App\Repositories\Contracts\ISubjectRepositoryContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(IUserRepositoryContract::class, UserRepository::class);
+        $this->app->bind(ISubjectRepositoryContract::class, SubjectRepository::class);
     }
 
     /**

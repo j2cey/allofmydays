@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Code\HasCode;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +32,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Task extends BaseModel implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasCode, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
 

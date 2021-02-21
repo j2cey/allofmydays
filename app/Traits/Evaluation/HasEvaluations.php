@@ -21,7 +21,7 @@ trait HasEvaluations
 
     public function addEvaluation($evaluation)
     {
-        if (empty($evaluation)) {
+        if (is_null($evaluation)) {
             return false;
         }
 

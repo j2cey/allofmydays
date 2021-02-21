@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +39,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::resource('subjects',SubjectController::class)->middleware('auth');
+Route::get('/subject/fetch', [SubjectController::class, 'fetch'])->name('subject.fetch');
+
+Route::resource('categories',CategoryController::class)->middleware('auth');

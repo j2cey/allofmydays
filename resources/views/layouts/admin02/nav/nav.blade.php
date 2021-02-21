@@ -23,6 +23,12 @@
                         <li class="nav-item">
                             <a href="/subjects" class="nav-link">List</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/subjects/create" class="nav-link">Create</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/categories" class="nav-link">Categories</a>
+                        </li>
                         <!-- End Level two -->
                     </ul>
                 </li>

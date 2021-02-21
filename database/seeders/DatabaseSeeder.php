@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GoalTypeSeeder::class);
         $this->call(DifficultySeeder::class);
         $this->call(AppreciationSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }
