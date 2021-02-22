@@ -77,5 +77,17 @@ class Task extends BaseModel implements Auditable
 
     #region Custom Functions
 
+    public function setSubject($id) {
+        $subject = Subject::where('id', $id)->first();
+        if ($subject) {
+            $this->subject()->associate($subject);
+            $this->save();
+
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     #endregion
 }

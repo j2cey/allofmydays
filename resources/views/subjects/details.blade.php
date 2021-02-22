@@ -5,7 +5,7 @@
     <section class="section">
 
         <div class="container-fluid">
-            <subject-details></subject-details>
+            <subject-details :subject_prop="{{ $subject->toJson() }}"></subject-details>
         </div>
 
     </section>

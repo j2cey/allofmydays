@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\CategoryController;
 
@@ -44,3 +45,4 @@ Route::resource('subjects',SubjectController::class)->middleware('auth');
 Route::get('/subject/fetch', [SubjectController::class, 'fetch'])->name('subject.fetch');
 
 Route::resource('categories',CategoryController::class)->middleware('auth');
+Route::resource('tasks',TaskController::class)->middleware('auth');

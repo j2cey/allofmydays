@@ -69,6 +69,10 @@ class Subject extends BaseModel implements Auditable
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function tasks() {
+        return $this->hasMany(Task::class, 'subject_id');
+    }
+
     public function subjectparent() {
         return $this->belongsTo(Subject::class, 'subject_parent_id');
     }

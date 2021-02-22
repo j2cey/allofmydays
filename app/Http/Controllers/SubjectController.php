@@ -107,7 +107,9 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        return view('subjects.details');
+        $subject->load(['category','tasks','tasks.status']);
+        return view('subjects.details')
+            ->with('subject', $subject);
     }
 
     /**

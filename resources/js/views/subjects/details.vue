@@ -6,9 +6,9 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
 
-                    <h3 class="profile-username text-center">Nina Mcintire</h3>
+                    <h6 class="profile-username text-center">{{ subject.title }}</h6>
 
-                    <p class="text-muted text-center">Software Engineer</p>
+                    <p class="text-muted text-center">{{ subject.description }}r</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
@@ -42,115 +42,35 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="tasks">
-                            <!-- Post -->
-                            <div class="post">
-                                <div class="user-block">
 
-                                    <span class="username">
-                  <a href="#">Jonathan Burke Jr.</a>
-                  <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                </span>
-                                    <span class="description">Shared publicly - 7:30 PM today</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
-                                </p>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="ion ion-clipboard mr-1"></i>
+                                        Tasks of the Subject
+                                    </h3>
 
-                                <p>
-                                    <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                    <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                    <span class="float-right">
-                  <a href="#" class="link-black text-sm">
-                    <i class="far fa-comments mr-1"></i> Comments (5)
-                  </a>
-                </span>
-                                </p>
-
-                                <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                            </div>
-                            <!-- /.post -->
-
-                            <!-- Post -->
-                            <div class="post clearfix">
-                                <div class="user-block">
-
-                                    <span class="username">
-                  <a href="#">Sarah Ross</a>
-                  <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                </span>
-                                    <span class="description">Sent you a message - 3 days ago</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
-                                </p>
-
-                                <form class="form-horizontal">
-                                    <div class="input-group input-group-sm mb-0">
-                                        <input class="form-control form-control-sm" placeholder="Response">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-danger">Send</button>
-                                        </div>
+                                    <div class="card-tools">
+                                        <ul class="pagination pagination-sm">
+                                            <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
+                                            <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                            <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                            <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                            <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
+                                        </ul>
                                     </div>
-                                </form>
-                            </div>
-                            <!-- /.post -->
-
-                            <!-- Post -->
-                            <div class="post">
-                                <div class="user-block">
-
-                                    <span class="username">
-                  <a href="#">Adam Jones</a>
-                  <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                </span>
-                                    <span class="description">Posted 5 photos - 5 days ago</span>
                                 </div>
-                                <!-- /.user-block -->
-                                <div class="row mb-3">
-                                    <div class="col-sm-6">
-
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-6">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-
-                                            </div>
-                                            <!-- /.col -->
-                                            <div class="col-sm-6">
-
-                                            </div>
-                                            <!-- /.col -->
-                                        </div>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.col -->
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <!-- Tasks List-->
+                                    <tasks-list :tasks_prop="subject.tasks"></tasks-list>
                                 </div>
-                                <!-- /.row -->
-
-                                <p>
-                                    <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                    <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                    <span class="float-right">
-                  <a href="#" class="link-black text-sm">
-                    <i class="far fa-comments mr-1"></i> Comments (5)
-                  </a>
-                </span>
-                                </p>
-
-                                <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    <button type="button" class="btn btn-xs btn-info float-right" @click="createNewTask(subject.id)"><i class="fas fa-plus"></i> Add task</button>
+                                </div>
                             </div>
-                            <!-- /.post -->
+
                         </div>
                         <!-- /.tab-pane -->
 
@@ -418,13 +338,30 @@
             <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
+        <add-update-task></add-update-task>
     </div>
     <!-- /.row -->
 </template>
 
 <script>
+    import tasksList from '../tasks/list'
+    import addUpdateTask from '../tasks/addupdate'
     export default {
-        name: "details"
+        name: "subjectdetails",
+        props: {
+            subject_prop: {}
+        },
+        components: { tasksList, addUpdateTask },
+        data() {
+            return {
+                subject: this.subject_prop,
+            };
+        },
+        methods: {
+            createNewTask(subjectId) {
+                this.$emit('task_create', subjectId)
+            },
+        }
     }
 </script>
 
