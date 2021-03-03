@@ -38,7 +38,9 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-warning btn-sm" @click="updateTask(subjectId)" :disabled="!isValidCreateForm" v-if="editing">Save</button>
+                    <button type="button" class="btn btn-warning btn-sm" @click="updateSubTask(parentTaskId)" :disabled="!isValidCreateForm" v-if="editing && isSubtask">Update SubTask</button>
+                    <button type="button" class="btn btn-warning btn-sm" @click="updateTask(subjectId)" :disabled="!isValidCreateForm" v-else-if="editing">Update Task</button>
+                    <button type="button" class="btn btn-warning btn-sm" @click="createSubTask(parentTaskId)" :disabled="!isValidCreateForm" v-else-if="isSubtask">Create Subtask</button>
                     <button type="button" class="btn btn-warning btn-sm" @click="createTask(subjectId)" :disabled="!isValidCreateForm" v-else>Create Task</button>
                 </div>
             </div>
@@ -58,6 +60,7 @@
             this.description = task.description || ''
             this.subject_id = task.subject_id || ''
             this.subject_posi = task.subject_posi || ''
+            this.task_parent_id = task.task_parent_id || ''
             this.subtask_posi = task.subtask_posi || ''
         }
     }
@@ -67,6 +70,7 @@
         mounted() {
             this.$parent.$on('task_create', (subjectId) => {
                 this.editing = false
+                this.isSubtask = false
                 this.subjectId = subjectId
                 this.task = new Task({})
                 this.task.subject_id = subjectId
@@ -81,6 +85,25 @@
                 this.subjectId = subjectId
                 $('#addUpdateTask').modal()
             })
+            TaskBus.$on('subtask_create', (taskId) => {
+                this.editing = false
+                this.isSubtask = true
+                this.parentTaskId = taskId
+                this.task = new Task({})
+                this.task.task_parent_id = taskId
+                this.taskForm = new Form(this.task)
+                $('#addUpdateTask').modal()
+            })
+            TaskBus.$on('subtask_edit', (task, parentTaskId) => {
+                this.editing = true
+                this.isSubtask = true
+                this.task = new Task(task)
+                this.task.task_parent_id = parentTaskId
+                this.taskForm = new Form(this.task)
+                this.taskId = task.uuid
+                this.parentTaskId = parentTaskId
+                $('#addUpdateTask').modal()
+            })
         },
         created() {
         },
@@ -88,10 +111,12 @@
             return {
                 task: {},
                 subjectId: '',
+                parentTaskId: '',
                 taskForm: new Form(new Task({})),
                 taskId: null,
                 editing: false,
-                loading: false
+                loading: false,
+                isSubtask: false
             }
         },
         methods: {
@@ -107,14 +132,37 @@
                     this.loading = false
                 });
             },
+            createSubTask(parentTaskId) {
+                this.loading = true
+                this.taskForm
+                    .post('/subtasks')
+                    .then(task => {
+                        this.loading = false
+                        TaskBus.$emit('subtask_created', {task, parentTaskId})
+                        $('#addUpdateTask').modal('hide')
+                    }).catch(error => {
+                    this.loading = false
+                });
+            },
             updateTask(subjectId) {
                 this.loading = true
-                const fd = this.addFileToForm()
                 this.taskForm
-                    .put(`/tasks/${this.taskId}`, fd)
+                    .put(`/tasks/${this.taskId}`, undefined)
                     .then(task => {
                         this.loading = false
                         TaskBus.$emit('task_updated', {task, subjectId})
+                        $('#addUpdateTask').modal('hide')
+                    }).catch(error => {
+                    this.loading = false
+                });
+            },
+            updateSubTask(parentTaskId) {
+                this.loading = true
+                this.taskForm
+                    .put(`/subtasks/${this.taskId}`, undefined)
+                    .then(task => {
+                        this.loading = false
+                        TaskBus.$emit('subtask_updated', {task, parentTaskId})
                         $('#addUpdateTask').modal('hide')
                     }).catch(error => {
                     this.loading = false

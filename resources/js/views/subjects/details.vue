@@ -6,23 +6,20 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
 
-                    <h6 class="profile-username text-center">{{ subject.title }}</h6>
+                    <h6 class="profile-username text-center text-sm">{{ subject.title }}</h6>
 
-                    <p class="text-muted text-center">{{ subject.description }}r</p>
+                    <p class="text-muted text-center text-sm">{{ subject.description }}</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>Followers</b> <a class="float-right">1,322</a>
+                        <li class="list-group-item text text-sm" v-if="subject.category">
+                            <b>Category</b> <a class="float-right">{{ subject.category.title }}</a>
                         </li>
-                        <li class="list-group-item">
-                            <b>Following</b> <a class="float-right">543</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Friends</b> <a class="float-right">13,287</a>
+                        <li class="list-group-item text text-sm" v-else>
+                            <b>Subject-Parent</b> <a :href="'/subjects/' + subject.subjectparent.uuid + '' " class="float-right">{{ subject.subjectparent.title }}</a>
                         </li>
                     </ul>
 
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    <a :href="'/subjects/' + subject.uuid + '/edit' " class="btn btn-primary btn-block btn-sm"><b>Edit</b></a>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -34,9 +31,9 @@
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#tasks" data-toggle="tab">Tasks</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#subsubjects" data-toggle="tab">Sub-subject</a></li>
                         <li class="nav-item"><a class="nav-link" href="#planning" data-toggle="tab">Planning</a></li>
                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                     </ul>
                 </div><!-- /.card-header -->
                 <div class="card-body">
@@ -51,23 +48,56 @@
                                     </h3>
 
                                     <div class="card-tools">
-                                        <ul class="pagination pagination-sm">
-                                            <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                                        </ul>
+                                        <button type="button" class="btn btn-sm btn-info float-right" @click="createNewTask(subject.id)"><i class="fas fa-plus"></i> Task</button>
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
+                                <div class="card-body" id="taskslist">
                                     <!-- Tasks List-->
-                                    <tasks-list :tasks_prop="subject.tasks"></tasks-list>
+                                    <tasks-list :tasks_prop="subject.tasks" :subjectId_prop="subject.id"></tasks-list>
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
-                                    <button type="button" class="btn btn-xs btn-info float-right" @click="createNewTask(subject.id)"><i class="fas fa-plus"></i> Add task</button>
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="subsubjects">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="ion ion-clipboard mr-1"></i>
+                                        Sub-Subject
+                                    </h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-sm btn-warning float-right" @click="createNewSubsubject(subject.id)"><i class="fas fa-plus"></i> Sub-Subject</button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body" id="subsubjectslist">
+                                    <!-- Tasks List-->
+                                    <subjects-list :subjects_prop="subject.subsubjects" :parentId_prop="subject.id" :isSubList_prop=true :isUpperListColored_prop=false></subjects-list>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -281,56 +311,6 @@
                             </div>
                         </div>
                         <!-- /.tab-pane -->
-
-                        <div class="tab-pane" id="settings">
-                            <form class="form-horizontal">
-                                <div class="form-group row">
-                                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.tab-pane -->
                     </div>
                     <!-- /.tab-content -->
                 </div><!-- /.card-body -->
@@ -339,19 +319,24 @@
         </div>
         <!-- /.col -->
         <add-update-task></add-update-task>
+        <add-update-subject></add-update-subject>
     </div>
     <!-- /.row -->
 </template>
 
 <script>
-    import tasksList from '../tasks/list'
+    import tasksList from '../tasks/taskslist'
     import addUpdateTask from '../tasks/addupdate'
+
+    import subjectsList from '../subjects/subjectslist'
+    import addUpdateSubject from '../subjects/subsubject-create'
+
     export default {
         name: "subjectdetails",
         props: {
             subject_prop: {}
         },
-        components: { tasksList, addUpdateTask },
+        components: { tasksList, addUpdateTask, subjectsList, addUpdateSubject },
         data() {
             return {
                 subject: this.subject_prop,
@@ -360,6 +345,9 @@
         methods: {
             createNewTask(subjectId) {
                 this.$emit('task_create', subjectId)
+            },
+            createNewSubsubject(subjectId) {
+                this.$emit('subsubject_create', subjectId)
             },
         }
     }

@@ -54,7 +54,8 @@
         <!-- /.card-body -->
         <div class="card-footer justify-content-between">
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" @click="close()" >Close</button>
-            <button type="button" class="btn btn-warning btn-sm" @click="createSubject()" :disabled="!isValidCreateForm">Save</button>
+            <button type="button" class="btn btn-warning btn-sm" @click="updateSubject()" :disabled="!isValidCreateForm" v-if="editing">Save</button>
+            <button type="button" class="btn btn-warning btn-sm" @click="createSubject()" :disabled="!isValidCreateForm" v-else>Save</button>
         </div>
         <!-- /.card-footer -->
 
@@ -67,6 +68,8 @@
     // eslint-disable-next-line no-unused-vars
     class Subject {
         constructor(subject) {
+            this.id = subject.id || ''
+            this.uuid = subject.uuid || ''
             this.title = subject.title || ''
             this.code = subject.code || ''
             this.description = subject.description || ''
@@ -78,10 +81,19 @@
     export default {
         name: "addupdate",
         props: {
+            subject_prop: null
         },
         // eslint-disable-next-line vue/no-unused-components
         components: { Multiselect },
         mounted() {
+            if (this.subject_prop == null) {
+                console.log("subject_prop is null")
+            } else {
+                this.editing = true
+                this.subject = new Subject(this.subject_prop)
+                this.subjectForm = new Form(this.subject)
+                this.subjectId = this.subject_prop.uuid
+            }
         },
         created() {
             axios.get('/categories')
@@ -100,7 +112,11 @@
         },
         methods: {
             close() {
-                window.location = '/subjects'
+                if (this.subject_prop == null) {
+                    window.location = '/subjects'
+                } else {
+                    window.location = '/subjects/' + this.subject.uuid
+                }
             },
             clearForm() {
                 this.subjectForm = new Form(new Subject({}));
@@ -134,16 +150,21 @@
                     this.loading = false
                 });
             },
-            updateData(data) {
-                window.noty({
-                    message: 'Successful treatment',
-                    type: 'success'
-                })
+            updateSubject() {
+                this.loading = true
 
-                window.noty({
-                    message: 'Subject successfully created',
-                    type: 'success'
-                })
+                this.subjectForm
+                    .put(`/subjects/${this.subjectId}`, undefined)
+                    .then(data => {
+                        this.loading = false
+                        this.$swal('Subject successful updated!', '', 'success').then(() => {
+                            this.close()
+                        })
+
+                        // eslint-disable-next-line no-unused-vars
+                    }).catch(error => {
+                    this.loading = false
+                });
             },
         },
         computed: {

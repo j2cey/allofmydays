@@ -96,7 +96,9 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        $subject->load(['category','subjectparent','tasks','tasks.status','tasks.subtasks','tasks.subtasks.status','subsubjects','subsubjects.tasks']);
+        return view('subjects.show')
+            ->with('subject', $subject);
     }
 
     /**
@@ -107,8 +109,8 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        $subject->load(['category','tasks','tasks.status']);
-        return view('subjects.details')
+        $subject->load(['category','subjectparent','tasks','tasks.status','tasks.subtasks','tasks.subtasks.status','subsubjects','subsubjects.tasks']);
+        return view('subjects.edit')
             ->with('subject', $subject);
     }
 
@@ -121,7 +123,13 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $category = json_decode($request->category, true);
+
+        $subject->title = $request->title;
+        $subject->description = $request->description;
+        $subject->save();
+
+        $subject->setCategory($category["id"]);
     }
 
     /**

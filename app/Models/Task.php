@@ -73,6 +73,10 @@ class Task extends BaseModel implements Auditable
         return $this->belongsTo(Task::class, 'task_parent_id');
     }
 
+    public function subtasks() {
+        return $this->hasMany(Task::class, 'task_parent_id');
+    }
+
     #endregion
 
     #region Custom Functions
@@ -81,6 +85,18 @@ class Task extends BaseModel implements Auditable
         $subject = Subject::where('id', $id)->first();
         if ($subject) {
             $this->subject()->associate($subject);
+            $this->save();
+
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    public function setTaskParent($id) {
+        $taskparent = Task::where('id', $id)->first();
+        if ($taskparent) {
+            $this->taskparent()->associate($taskparent);
             $this->save();
 
             return 1;

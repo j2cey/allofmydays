@@ -9,7 +9,7 @@ trait Uuidable
 
     public static function bootUuidable()
     {
-        static::saving(function ($model) {
+        static::creating(function ($model) {
             $model->uuid = $model->generateUuid();
         });
     }

@@ -42,7 +42,7 @@ class TaskController extends Controller
 
         $new_task->setSubject($request->subject_id);
 
-        return $new_task;
+        return $new_task->load(['status','subtasks','subtasks.status']);
     }
 
     /**
@@ -76,7 +76,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->save();
+
+        $task->setSubject($request->subject_id);
+
+        return $task->load(['status','subtasks','subtasks.status']);
     }
 
     /**
@@ -87,6 +93,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return response('Delete Successfull', 200);
     }
 }

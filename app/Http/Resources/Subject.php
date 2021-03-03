@@ -33,7 +33,7 @@ class Subject extends JsonResource
             'code' => $this->code,
             'description' => $this->description,
 
-            'edit_url' => route('subjects.edit', $this->uuid),
+            'edit_url' => route('subjects.show', $this->uuid),
             'destroy_url' => route('subjects.destroy', $this->uuid),
         ];
     }

@@ -77,6 +77,10 @@ class Subject extends BaseModel implements Auditable
         return $this->belongsTo(Subject::class, 'subject_parent_id');
     }
 
+    public function subsubjects() {
+        return $this->hasMany(Subject::class, 'subject_parent_id');
+    }
+
     #endregion
 
     #region Custom Functions
@@ -85,6 +89,18 @@ class Subject extends BaseModel implements Auditable
         $category = Category::where('id', $id)->first();
         if ($category) {
             $this->category()->associate($category);
+            $this->save();
+
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    public function setSubjectParent($id) {
+        $subjectparent = Subject::where('id', $id)->first();
+        if ($subjectparent) {
+            $this->subjectparent()->associate($subjectparent);
             $this->save();
 
             return 1;
