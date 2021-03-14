@@ -11,7 +11,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property integer $id
  * @property integer $uuid
  *
- * @property integer $title
+ * @property string $title
+ * @property string $full_path
  * @property integer $code
  * @property integer $description
  */
@@ -30,6 +31,7 @@ class Subject extends JsonResource
             'uuid' => $this->uuid,
 
             'title' => $this->title,
+            'full_path' => $this->full_path,
             'code' => $this->code,
             'description' => $this->description,
 

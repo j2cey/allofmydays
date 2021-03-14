@@ -24,6 +24,7 @@ class CreateTasksTable extends Migration
             $table->baseFields();
 
             $table->string('title')->comment('title of the task');
+            $table->string('full_path')->nullable()->comment('full path of the task');
             $table->string('code')->unique()->comment('task s unique code');
             $table->string('description')->nullable()->comment('description of the task');
 

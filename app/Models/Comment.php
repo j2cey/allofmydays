@@ -16,8 +16,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property bool $is_default
  * @property string|null $tags
  *
+ * @property integer|null $user_id
+ *
  * @property string $title
- * @property string $comment
+ * @property string $comment_text
  * @property string $description
  *
  * @property Carbon $created_at
@@ -28,6 +30,8 @@ class Comment extends BaseModel implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+
+    protected $with = ['status','user'];
 
     #region Validation Rules
 
@@ -57,6 +61,10 @@ class Comment extends BaseModel implements Auditable
     #endregion
 
     #region Eloquent Relationships
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     #endregion
 

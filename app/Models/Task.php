@@ -4,8 +4,14 @@ namespace App\Models;
 
 use App\Traits\Code\HasCode;
 use Illuminate\Support\Carbon;
+use App\Traits\Comment\HasComments;
+use App\Traits\Priority\HasPriorities;
+use App\Traits\Execution\HasExecutions;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\Difficulty\HasDifficulties;
+use App\Traits\Appreciation\HasAppreciations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\ReflexiveRelationship\HasReflexivePath;
 
 /**
  * Class Task
@@ -18,6 +24,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $tags
  *
  * @property string $title
+ * @property string $full_path
  * @property string $code
  * @property string $description
  *
@@ -32,9 +39,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Task extends BaseModel implements Auditable
 {
-    use HasFactory, HasCode, \OwenIt\Auditing\Auditable;
+    use HasFactory,
+        HasCode,
+        HasReflexivePath,
+        HasComments,
+        HasDifficulties,
+        HasPriorities,
+        HasAppreciations, HasExecutions,
+        \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+    protected $with = ['status','subtasks','comments','difficulties','priorities','appreciations','executions'];
 
     #region Validation Rules
 
@@ -106,4 +121,24 @@ class Task extends BaseModel implements Auditable
     }
 
     #endregion
+
+    public static function getReflexiveParentIdField()
+    {
+        return "task_parent_id";
+    }
+
+    public static function getTitleField()
+    {
+        return "title";
+    }
+
+    public static function getReflexiveFullPathField()
+    {
+        return "full_path";
+    }
+
+    public function getReflexiveChildrenRelationName()
+    {
+        return "subtasks";
+    }
 }

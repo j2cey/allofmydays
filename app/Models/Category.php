@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $tags
  *
  * @property string $title
+ * @property string $full_path
  * @property string $code
  * @property string $description
  *
@@ -66,9 +67,33 @@ class Category extends BaseModel implements Auditable
         return $this->belongsTo(Category::class, 'category_parent_id');
     }
 
+    public function subcategories() {
+        return $this->hasMany(Category::class, 'category_parent_id');
+    }
+
     #endregion
 
     #region Custom Functions
 
     #endregion
+
+    public static function getReflexiveParentIdField()
+    {
+        return "category_parent_id";
+    }
+
+    public static function getTitleField()
+    {
+        return "title";
+    }
+
+    public static function getReflexiveFullPathField()
+    {
+        return "full_path";
+    }
+
+    public function getReflexiveChildrenRelationName()
+    {
+        return "subcategories";
+    }
 }

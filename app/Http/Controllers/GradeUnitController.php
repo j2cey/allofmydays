@@ -14,7 +14,9 @@ class GradeUnitController extends Controller
      */
     public function index()
     {
-        //
+        $gradeunits = GradeUnit::get();
+
+        return $gradeunits;
     }
 
     /**

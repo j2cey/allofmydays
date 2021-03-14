@@ -14,7 +14,9 @@ class DifficultyController extends Controller
      */
     public function index()
     {
-        //
+        $difficulties = Difficulty::get();
+
+        return $difficulties;
     }
 
     /**
@@ -36,6 +38,18 @@ class DifficultyController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function add(Request $request)
+    {
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $difficulty = Difficulty::where('id', $request->difficulty["id"])->first();
+            $model->addDifficulty($difficulty);
+            return $difficulty->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**
@@ -69,7 +83,20 @@ class DifficultyController extends Controller
      */
     public function update(Request $request, Difficulty $difficulty)
     {
-        //
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $difficulty_sel = json_decode($request->difficulty, true);
+            $difficulty = Difficulty::where('id', $difficulty_sel["id"])->first();
+            $model->syncDifficulty([
+                $difficulty->id => [
+                    "model_type" => $request->model_type,
+                    "model_id" => $request->model_id,
+                    ]
+            ]);
+            return $difficulty->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**

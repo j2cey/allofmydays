@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row" v-if="!isSubsubject">
                     <label for="m_select_category" class="col-sm-2 col-form-label text-sm">Category</label>
                     <div class="col-sm-10">
                         <multiselect
@@ -90,6 +90,7 @@
                 console.log("subject_prop is null")
             } else {
                 this.editing = true
+                this.isSubsubject = !this.subject_prop.category_id;
                 this.subject = new Subject(this.subject_prop)
                 this.subjectForm = new Form(this.subject)
                 this.subjectId = this.subject_prop.uuid
@@ -107,7 +108,8 @@
                 subjectId: null,
                 editing: false,
                 loading: false,
-                categories: []
+                categories: [],
+                isSubsubject: false
             }
         },
         methods: {
@@ -153,18 +155,36 @@
             updateSubject() {
                 this.loading = true
 
-                this.subjectForm
-                    .put(`/subjects/${this.subjectId}`, undefined)
-                    .then(data => {
-                        this.loading = false
-                        this.$swal('Subject successful updated!', '', 'success').then(() => {
-                            this.close()
-                        })
+                if (this.isSubsubject) {
 
-                        // eslint-disable-next-line no-unused-vars
-                    }).catch(error => {
-                    this.loading = false
-                });
+                    this.subjectForm
+                        .put(`/subsubjects/${this.subjectId}`, undefined)
+                        .then(data => {
+                            this.loading = false
+                            this.$swal('Subject successful updated!', '', 'success').then(() => {
+                                this.close()
+                            })
+
+                            // eslint-disable-next-line no-unused-vars
+                        }).catch(error => {
+                        this.loading = false
+                    });
+
+                } else {
+
+                    this.subjectForm
+                        .put(`/subjects/${this.subjectId}`, undefined)
+                        .then(data => {
+                            this.loading = false
+                            this.$swal('Subject successful updated!', '', 'success').then(() => {
+                                this.close()
+                            })
+
+                            // eslint-disable-next-line no-unused-vars
+                        }).catch(error => {
+                        this.loading = false
+                    });
+                }
             },
         },
         computed: {

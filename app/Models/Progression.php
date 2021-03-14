@@ -22,8 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $curr_value
  * @property boolean $exec_done
  *
- * @property string|null $model_type
- * @property integer|null $model_id
+ * @property integer|null $execution_id
  *
  * @property string|null $description
  *
@@ -63,6 +62,10 @@ class Progression extends BaseModel implements Auditable
     #endregion
 
     #region Eloquent Relationships
+
+    public function execution() {
+        return $this->belongsTo(Execution::class, 'execution_id');
+    }
 
     #endregion
 

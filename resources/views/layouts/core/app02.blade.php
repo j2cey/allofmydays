@@ -17,6 +17,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <!-- bootstrap slider -->
+    <link href="{{ asset('AdminLTE/plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}" rel="stylesheet">
+
 </head>
 
 
@@ -48,6 +51,9 @@
 <script src="{{ asset('AdminLTE/plugins/toastr/toastr.min.js') }}"></script>
 <!-- AdminLTE Customization -->
 <script src="{{ asset('AdminLTE/dist/js/demo.js') }}"></script>
+
+<!-- Bootstrap slider -->
+<script src="{{ asset('AdminLTE/plugins/bootstrap-slider/bootstrap-slider.min.js') }}"></script>
 
 </body>
 

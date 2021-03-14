@@ -6,6 +6,7 @@ use App\Traits\Code\HasCode;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\ReflexiveRelationship\HasReflexivePath;
 
 /**
  * Class Subject
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $status_id
  *
  * @property string $title
+ * @property string $full_path
  * @property string $code
  * @property string $description
  *
@@ -33,9 +35,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Subject extends BaseModel implements Auditable
 {
-    use HasFactory, HasCode, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasCode, HasReflexivePath, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+
+    protected $with = ['status','tasks','subsubjects'];
 
     #region Validation Rules
 
@@ -110,4 +114,23 @@ class Subject extends BaseModel implements Auditable
     }
 
     #endregion
+    public static function getReflexiveParentIdField()
+    {
+        return "subject_parent_id";
+    }
+
+    public static function getTitleField()
+    {
+        return "title";
+    }
+
+    public static function getReflexiveFullPathField()
+    {
+        return "full_path";
+    }
+
+    public function getReflexiveChildrenRelationName()
+    {
+        return "subsubjects";
+    }
 }

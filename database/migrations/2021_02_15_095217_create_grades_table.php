@@ -29,11 +29,11 @@ class CreateGradesTable extends Migration
 
             $table->integer('value')->nullable()->comment('grade value expressed in the unit');
 
-            $table->foreignId('evaluation_id')->nullable()
-                ->comment('evaluation reference')
-                ->constrained('evaluations')->onDelete('set null');
+            $table->foreignId('execution_id')->nullable()
+                ->comment('execution reference')
+                ->constrained('executions')->onDelete('set null');
 
-            $table->integer('grade_posi')->default(0)->comment('grade position in evaluation grades list');
+            $table->integer('grade_posi')->default(0)->comment('grade position in execution grades list');
 
             $table->string('description')->nullable()->comment('description of the grade');
         });
@@ -50,7 +50,7 @@ class CreateGradesTable extends Migration
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
             $table->dropForeign(['grade_unit_id']);
-            $table->dropForeign(['evaluation_id']);
+            $table->dropForeign(['execution_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

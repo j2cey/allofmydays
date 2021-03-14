@@ -20,7 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
 
+        $this->call(GradeUnitSeeder::class);
         $this->call(GoalTypeSeeder::class);
+        $this->call(OperatorSeeder::class);
+        $this->call(PrioritySeeder::class);
         $this->call(DifficultySeeder::class);
         $this->call(AppreciationSeeder::class);
         $this->call(CategorySeeder::class);

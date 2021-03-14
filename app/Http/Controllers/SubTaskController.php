@@ -42,7 +42,7 @@ class SubTaskController extends Controller
 
         $new_task->setTaskParent($request->task_parent_id);
 
-        return $new_task->load(['status']);
+        return $new_task->load(['status','comments','difficulties','priorities','appreciations','executions']);
     }
 
     /**
@@ -83,7 +83,7 @@ class SubTaskController extends Controller
 
         $task->setTaskParent($request->task_parent_id);
 
-        return $task->load(['status']);
+        return $task->load(['status','comments','difficulties','priorities','appreciations','executions']);
     }
 
     /**

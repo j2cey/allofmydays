@@ -74,9 +74,16 @@ class SubSubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request, $id)
     {
-        //
+        $subject = Subject::where('uuid', $id)->first();
+        $subject->title = $request->title;
+        $subject->description = $request->description;
+        $subject->save();
+
+        $subject->setSubjectParent($request->subject_parent_id);
+
+        return $subject->load(['status','tasks','tasks.status','tasks.subtasks','tasks.subtasks.status']);
     }
 
     /**
@@ -85,8 +92,10 @@ class SubSubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy($id)
     {
-        //
+        $task = Subject::where('uuid', $id)->first();
+        $task->delete();
+        return response('Delete Successfull', 200);
     }
 }

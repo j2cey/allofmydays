@@ -23,8 +23,11 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->baseFields();
 
-            $table->string('title')->comment('title of the comment');
-            $table->text('comment')->comment('the comment');
+            $table->foreignId('user_id')->nullable()
+                ->comment('user reference')
+                ->constrained('users')->onDelete('set null');
+
+            $table->text('comment_text')->comment('the comment text');
             $table->string('description')->nullable()->comment('description of the comment');
         });
         $this->setTableComment($this->table_name,$this->table_comment);
@@ -39,6 +42,7 @@ class CreateCommentsTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
+            $table->dropForeign(['user_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

@@ -25,7 +25,7 @@ class CreateOperatorsTable extends Migration
 
             $table->string('title')->comment('title of the unit');
             $table->string('code')->unique()->comment('unique code');
-            $table->integer('symbol')->comment('the symbol of the oerator');
+            $table->string('symbol')->comment('the symbol of the oerator');
             $table->string('description')->nullable()->comment('description of the goal type');
         });
         $this->setTableComment($this->table_name,$this->table_comment);

@@ -29,8 +29,9 @@ class CreateProgressionsTable extends Migration
             $table->boolean('exec_done')->default(false)->comment('determine if the execution is done');
             $table->integer('rate')->default(0)->comment('the rate of the progression');
 
-            $table->string('model_type')->nullable()->comment('type of referenced model');
-            $table->bigInteger('model_id')->comment('model reference');
+            $table->foreignId('execution_id')->nullable()
+                ->comment('execution reference')
+                ->constrained('executions')->onDelete('set null');
 
             $table->string('description')->nullable()->comment('description of the progression');
         });
@@ -46,6 +47,7 @@ class CreateProgressionsTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
+            $table->dropForeign(['execution_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

@@ -14,7 +14,9 @@ class PriorityController extends Controller
      */
     public function index()
     {
-        //
+        $priorities = Priority::get();
+
+        return $priorities;
     }
 
     /**
@@ -36,6 +38,18 @@ class PriorityController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function add(Request $request)
+    {
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $priority = Priority::where('id', $request->priority["id"])->first();
+            $model->addPriority($priority);
+            return $priority->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**
@@ -69,7 +83,20 @@ class PriorityController extends Controller
      */
     public function update(Request $request, Priority $priority)
     {
-        //
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $priority_sel = json_decode($request->priority, true);
+            $priority = Priority::where('id', $priority_sel["id"])->first();
+            $model->syncDifficulty([
+                $priority->id => [
+                    "model_type" => $request->model_type,
+                    "model_id" => $request->model_id,
+                ]
+            ]);
+            return $priority->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**

@@ -14,7 +14,9 @@ class AppreciationController extends Controller
      */
     public function index()
     {
-        //
+        $appreciations = Appreciation::get();
+
+        return $appreciations;
     }
 
     /**
@@ -36,6 +38,18 @@ class AppreciationController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function add(Request $request)
+    {
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $appreciation = Appreciation::where('id', $request->appreciation["id"])->first();
+            $model->addAppreciation($appreciation);
+            return $appreciation->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**
@@ -69,7 +83,20 @@ class AppreciationController extends Controller
      */
     public function update(Request $request, Appreciation $appreciation)
     {
-        //
+        $model_type = $request->model_type;
+        $model = $model_type::where('id', $request->model_id)->first();
+        if ($model) {
+            $appreciation_sel = json_decode($request->appreciation, true);
+            $appreciation = Appreciation::where('id', $appreciation_sel["id"])->first();
+            $model->syncAppreciation([
+                $appreciation->id => [
+                    "model_type" => $request->model_type,
+                    "model_id" => $request->model_id,
+                ]
+            ]);
+            return $appreciation->load(['status']);
+        }
+        return response('Model not found', 404);
     }
 
     /**

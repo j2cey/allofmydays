@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property Carbon $start_at
  * @property Carbon|null $end_at
  *
- * @property integer|null $evaluation_id
+ * @property integer|null $execution_id
  * @property integer $duration_posi
  * @property string $description
  *
@@ -70,8 +70,8 @@ class Duration extends BaseModel implements Auditable
 
     #region Eloquent Relationships
 
-    public function evaluation() {
-        return $this->belongsTo(Evaluation::class, 'evaluation_id');
+    public function execution() {
+        return $this->belongsTo(Execution::class, 'execution_id');
     }
 
     #endregion

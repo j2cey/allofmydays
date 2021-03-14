@@ -35,11 +35,11 @@ class CreateDurationsTable extends Migration
             $table->integer('elapsetime_seconds')->nullable()->comment('duration s elapse in seconds');
             $table->integer('elapsetime_milliseconds')->nullable()->comment('duration s elapse in milliseconds');
 
-            $table->foreignId('evaluation_id')->nullable()
-                ->comment('evaluation reference')
-                ->constrained('evaluations')->onDelete('set null');
+            $table->foreignId('execution_id')->nullable()
+                ->comment('execution reference')
+                ->constrained('executions')->onDelete('set null');
 
-            $table->integer('duration_posi')->default(0)->comment('duration position in evaluation durations list');
+            $table->integer('duration_posi')->default(0)->comment('duration position in execution durations list');
 
             $table->string('description')->nullable()->comment('description of the duration');
         });
@@ -55,7 +55,7 @@ class CreateDurationsTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropBaseForeigns();
-            $table->dropForeign(['evaluation_id']);
+            $table->dropForeign(['execution_id']);
         });
         Schema::dropIfExists($this->table_name);
     }

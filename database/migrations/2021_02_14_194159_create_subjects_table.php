@@ -24,6 +24,7 @@ class CreateSubjectsTable extends Migration
             $table->baseFields();
 
             $table->string('title')->comment('title of the subject');
+            $table->string('full_path')->nullable()->comment('full path of the subject');
             $table->string('code')->unique()->comment('subject unique code');
             $table->string('description')->nullable()->comment('description of the subject');
 

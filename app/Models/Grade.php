@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $tags
  *
  * @property integer $value
- * @property integer|null $evaluation_id
+ * @property integer|null $execution_id
+ * @property integer|null $grade_unit_id
  * @property integer $grade_posi
  * @property string $description
  *
@@ -29,6 +30,8 @@ class Grade extends BaseModel implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+
+    protected $with = ['status','unit'];
 
     #region Validation Rules
 
@@ -59,8 +62,12 @@ class Grade extends BaseModel implements Auditable
 
     #region Eloquent Relationships
 
-    public function evaluation() {
-        return $this->belongsTo(Evaluation::class, 'evaluation_id');
+    public function unit() {
+        return $this->belongsTo(GradeUnit::class, 'grade_unit_id');
+    }
+
+    public function execution() {
+        return $this->belongsTo(Execution::class, 'execution_id');
     }
 
     #endregion

@@ -24,6 +24,7 @@ class CreateCategoriesTable extends Migration
             $table->baseFields();
 
             $table->string('title')->comment('title of the category');
+            $table->string('full_path')->nullable()->comment('full path of the category');
             $table->string('code')->unique()->comment('unique code');
             $table->string('description')->nullable()->comment('description of the category');
 

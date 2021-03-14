@@ -42,7 +42,7 @@ class TaskController extends Controller
 
         $new_task->setSubject($request->subject_id);
 
-        return $new_task->load(['status','subtasks','subtasks.status']);
+        return $new_task->load(['status','subtasks','subtasks.status','comments','comments.user','difficulties','priorities','appreciations','executions']);
     }
 
     /**
@@ -82,7 +82,7 @@ class TaskController extends Controller
 
         $task->setSubject($request->subject_id);
 
-        return $task->load(['status','subtasks','subtasks.status']);
+        return $task->load(['status','subtasks','subtasks.status','comments','comments.user','difficulties','priorities','appreciations','executions']);
     }
 
     /**

@@ -145,10 +145,20 @@
                                                 <a
                                                     :href="record.edit_url"
                                                     class="tw-inline-block tw-text-blue-400">
-                                                    @{{ record.title }}
+                                                    @{{ record.full_path }}
                                                 </a>
                                             </div>
                                             <p class="tw-text-gray-500 tw-text-base">@{{ record.description }}</p>
+                                            <p>
+                                                <a :href="record.edit_url"
+                                                    class="tw-inline-block tw-mr-3 tw-text-green-500">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                                <a :href="record.destroy_url"
+                                                   class="tw-inline-block tw-mr-3 tw-text-red-500">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>
+                                            </p>
                                         </div>
 
                                     </div>
