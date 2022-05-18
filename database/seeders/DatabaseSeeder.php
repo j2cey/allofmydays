@@ -27,5 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DifficultySeeder::class);
         $this->call(AppreciationSeeder::class);
         $this->call(CategorySeeder::class);
+
+        $this->call(DynamicAttributeTypeSeeder::class);
+        $this->call(ReportTypeSeeder::class);
     }
 }

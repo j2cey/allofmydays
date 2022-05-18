@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\CommentController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\ExecutionController;
 use App\Http\Controllers\GradeUnitController;
 use App\Http\Controllers\SubSubjectController;
 use App\Http\Controllers\DifficultyController;
+use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\AppreciationController;
 
 /*
@@ -49,6 +51,15 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/tests', function () {
+    $report = App\Models\Report\Report::createNew("Report 04", App\Models\Report\ReportType::first(), "");
+    $report->addDynamicAttribute("Att Dyn. 01",App\Models\DynamicAttributes\DynamicAttributeType::find(1)->first(),"");
+    $report->addDynamicAttribute("Att Dyn. 02",App\Models\DynamicAttributes\DynamicAttributeType::find(2)->first(),"");
+    $report->addDynamicAttribute("Att Dyn. 02",App\Models\DynamicAttributes\DynamicAttributeType::find(3)->first(),"");
+    $report->oldestDynamicattribute->addValue("Test for Add value", true);
+    dd("report: ", $report, $report->dynamicattributes);
+});
+
 Route::resource('subjects',SubjectController::class)->middleware('auth');
 Route::resource('subsubjects',SubSubjectController::class)->middleware('auth');
 Route::get('/subject/fetch', [SubjectController::class, 'fetch'])->name('subject.fetch');
@@ -83,3 +94,14 @@ Route::post('executions/add', [ExecutionController::class, 'add'])
     ->middleware('auth');
 
 Route::resource('gradeunits',GradeUnitController::class)->middleware('auth');
+
+
+/*
+|--------------------------------------------------------------------------
+| Report (Admin IT) Routes
+|--------------------------------------------------------------------------
+|
+|
+*/
+Route::resource('reporttypes',ReportTypeController::class)->middleware('auth');
+Route::resource('reports',ReportController::class)->middleware('auth');
