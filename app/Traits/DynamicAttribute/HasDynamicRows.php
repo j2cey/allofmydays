@@ -4,9 +4,9 @@
 namespace App\Traits\DynamicAttribute;
 
 
-use App\Models\DynamicAttributes\DynamicAttributeValueRow;
+use App\Models\DynamicAttributes\DynamicRow;
 
-trait HasDynamicValuesRows
+trait HasDynamicRows
 {
     /**
      * Get all of the model's dynamic attributes
@@ -14,7 +14,7 @@ trait HasDynamicValuesRows
      */
     public function dynamicvaluerows()
     {
-        return $this->morphMany(DynamicAttributeValueRow::class, 'hasdynamicvaluerow');
+        return $this->morphMany(DynamicRow::class, 'hasdynamicrow');
     }
 
     /**
@@ -23,7 +23,7 @@ trait HasDynamicValuesRows
      */
     public function latestDynamicvaluerow()
     {
-        return $this->morphOne(DynamicAttributeValueRow::class, 'hasdynamicvaluerow')->latestOfMany();
+        return $this->morphOne(DynamicRow::class, 'hasdynamicrow')->latestOfMany();
     }
 
     /**
@@ -32,6 +32,6 @@ trait HasDynamicValuesRows
      */
     public function oldestDynamicvaluerow()
     {
-        return $this->morphOne(DynamicAttributeValueRow::class, 'hasdynamicvaluerow')->oldestOfMany();
+        return $this->morphOne(DynamicRow::class, 'hasdynamicrow')->oldestOfMany();
     }
 }

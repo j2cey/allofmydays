@@ -52,12 +52,20 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/tests', function () {
-    $report = App\Models\Report\Report::createNew("Report 04", App\Models\Report\ReportType::first(), "");
-    $report->addDynamicAttribute("Att Dyn. 01",App\Models\DynamicAttributes\DynamicAttributeType::find(1)->first(),"");
-    $report->addDynamicAttribute("Att Dyn. 02",App\Models\DynamicAttributes\DynamicAttributeType::find(2)->first(),"");
-    $report->addDynamicAttribute("Att Dyn. 02",App\Models\DynamicAttributes\DynamicAttributeType::find(3)->first(),"");
-    $report->oldestDynamicattribute->addValue("Test for Add value", true);
-    dd("report: ", $report, $report->dynamicattributes);
+    $report = App\Models\Report\Report::where("title","Report 01")->first();
+    if ( is_null($report) ) {
+        $report = App\Models\Report\Report::createNew("Report 01", App\Models\Report\ReportType::first(), "");
+        $report->addDynamicAttribute("Att Dyn. 01", App\Models\DynamicAttributes\DynamicAttributeType::find(1)->first(), "");
+        $report->addDynamicAttribute("Att Dyn. 02", App\Models\DynamicAttributes\DynamicAttributeType::find(2)->first(), "");
+        $report->addDynamicAttribute("Att Dyn. 02", App\Models\DynamicAttributes\DynamicAttributeType::find(3)->first(), "");
+        $report->oldestDynamicattribute->addValue("Test for Add value", true);
+    }
+    //dd($report->status);
+    $report->oldestDynamicattribute->addValue("Test for Add value xxx 2", false);
+    //dd($report->oldestDynamicattribute->hasdynamicattribute->latestDynamicvaluerow);
+    dd($report->oldestDynamicattribute->attributetype,$report->oldestDynamicattribute->dynamicvalues,$report->oldestDynamicattribute->dynamicvalues);
+    $first_report = App\Models\Report\Report::first();
+    dd("first_report: ", $first_report, $first_report->dynamicattributes, $first_report->dynamicattributes[0]->values());
 });
 
 Route::resource('subjects',SubjectController::class)->middleware('auth');

@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class DynamicValueInteger extends Model implements Auditable
+class DynamicValueInteger extends DynamicValue implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 
@@ -66,20 +66,22 @@ class DynamicValueInteger extends Model implements Auditable
     #region Eloquent Relationships
 
     public function valuerow() {
-        return $this->belongsTo(DynamicAttributeValueRow::class,"dynamic_attribute_value_row_id");
+        return $this->belongsTo(DynamicRow::class,"dynamic_attribute_value_row_id");
     }
 
     #endregion
 
     #region Custom Functions
 
-    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicAttributeValueRow $row) {
+    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicRow $row) {
 
-        return DynamicValueDatetime::create([
+        $dynamicvalue = DynamicValueDatetime::create([
             'thevalue' => intval($thevalue),
             'dynamic_attribute_id' => $dynamicattribute->id,
             'dynamic_attribute_value_row_id' => $row->id,
         ]);
+        $row->setLastInserted();
+        return $dynamicvalue;
     }
 
     #endregion

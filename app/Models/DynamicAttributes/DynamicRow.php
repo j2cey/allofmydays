@@ -6,10 +6,9 @@ use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use phpDocumentor\Reflection\Types\This;
 
 /**
- * Class DynamicAttributeValueRow
+ * Class DynamicRow
  * @package App\Models\DynamicAttributes
  *
  * @property integer $id
@@ -25,13 +24,13 @@ use phpDocumentor\Reflection\Types\This;
  * @property Carbon $firstinserted_at
  * @property Carbon $lastinserted_at
  *
- * @property string $hasdynamicvaluerow_type
- * @property integer $hasdynamicvaluerow_id
+ * @property string $hasdynamicrow_type
+ * @property integer $hasdynamicrow_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class DynamicAttributeValueRow extends BaseModel implements Auditable
+class DynamicRow extends BaseModel implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 
@@ -66,9 +65,13 @@ class DynamicAttributeValueRow extends BaseModel implements Auditable
 
     #region Eloquent Relationships
 
-    public function hasdynamicvaluerow()
+    public function hasdynamicrow()
     {
         return $this->morphTo();
+    }
+
+    public function dynamicvalues() {
+        return $this->hasMany(DynamicValue::class, "dynamic_row_id");
     }
 
     #endregion
@@ -76,14 +79,25 @@ class DynamicAttributeValueRow extends BaseModel implements Auditable
     #region Custom Functions
 
     public static function createNew(DynamicAttribute $dynamicattribute) {
-        $line_num = DynamicAttributeValueRow::where('hasdynamicvaluerow_type',$dynamicattribute->hasdynamicattribute_type)
-                ->where('hasdynamicvaluerow_id', $dynamicattribute->hasdynamicattribute_id)->count() + 1;
-        return DynamicAttributeValueRow::create([
+        $line_num = DynamicRow::where('hasdynamicrow_type',$dynamicattribute->hasdynamicattribute_type)
+                ->where('hasdynamicrow_id', $dynamicattribute->hasdynamicattribute_id)->count() + 1;
+        return DynamicRow::create([
             'line_uuid' => self::generateUuid(),
             'line_num' => $line_num,
             'firstinserted_at' => Carbon::now(),
-            'hasdynamicvaluerow_type' => $dynamicattribute->hasdynamicattribute_type,
-            'hasdynamicvaluerow_id' => $dynamicattribute->hasdynamicattribute_id,
+            'hasdynamicrow_type' => $dynamicattribute->hasdynamicattribute_type,
+            'hasdynamicrow_id' => $dynamicattribute->hasdynamicattribute_id,
+        ]);
+    }
+
+    /**
+     * Set the last inserted date
+     * @param null $newdate
+     */
+    public function setLastInserted($newdate = null) {
+        $finaldate = $newdate ?? Carbon::now();
+        $this->update([
+            'lastinserted_at' => $finaldate,
         ]);
     }
 

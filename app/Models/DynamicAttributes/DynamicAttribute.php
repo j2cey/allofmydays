@@ -38,7 +38,7 @@ class DynamicAttribute extends BaseModel implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
-    protected $with = ['values'];
+    //protected $with = ['values'];
 
     #region Validation Rules
 
@@ -84,38 +84,32 @@ class DynamicAttribute extends BaseModel implements Auditable
         return $this->morphTo();
     }
 
-    public function values() {
-        if ( is_null($this->attributetype) ) {
-            return null;
-        } else {
-            return $this->hasMany($this->attributetype->model_type, "dynamic_attribute_id");
-        }
+    public function dynamicvalues() {
+        return $this->hasMany(DynamicValue::class, "dynamic_attribute_id");
     }
 
     #endregion
 
     #region Custom Functions
 
-    public static function createNew($name,DynamicAttributeType $attribute_type,$description, $save = false): DynamicAttribute {
+    public static function createNew($object,$name,DynamicAttributeType $attribute_type,$description): DynamicAttribute {
         $num_ord = 1;
-        $dynamicattribute = new DynamicAttribute([
+        return DynamicAttribute::create([
             'name' => $name,
             'num_ord' => $num_ord,
             'dynamic_attribute_type_id' => $attribute_type->id,
+            'hasdynamicattribute_type' => get_class($object),
+            'hasdynamicattribute_id' => $object->id,
             'description' => $description,
         ]);
-
-        if ($save) $dynamicattribute->save();
-
-        return $dynamicattribute;
     }
 
     public function addValue($thevalue, $new_row = false) {
         if ($new_row) {
-            $values_row = DynamicAttributeValueRow::createNew($this);
+            $values_row = DynamicRow::createNew($this);
         } else {
             // get last row
-            $values_row = $this->latestDynamicvaluerow;
+            $values_row = $this->hasdynamicattribute->latestDynamicvaluerow;
         }
         return $this->attributetype->model_type::createNew($thevalue, $this, $values_row);
     }

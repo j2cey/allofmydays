@@ -9,7 +9,7 @@ use App\Models\DynamicAttributes\DynamicAttributeType;
 
 trait HasDynamicAttributes
 {
-    use HasDynamicValuesRows;
+    use HasDynamicRows;
 
     /**
      * Get all of the model's dynamic attributes
@@ -41,8 +41,8 @@ trait HasDynamicAttributes
 
 
     public function addDynamicAttribute($name,DynamicAttributeType $attribute_type,$description) {
-        $dynamicattribute = DynamicAttribute::createNew($name,$attribute_type,$description, false);
-        $this->dynamicattributes()->save($dynamicattribute);
+        return DynamicAttribute::createNew($this,$name,$attribute_type,$description);
+        //$this->dynamicattributes()->save($dynamicattribute);
     }
 
     public static function bootHasReportValue()

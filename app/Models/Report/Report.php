@@ -70,16 +70,11 @@ class Report extends BaseModel implements Auditable
     #region Custom Functions
 
     public static function createNew($title,ReportType $report_type,$description): Report {
-
-        $report = Report::create([
+        return Report::create([
             'title' => $title,
             'report_type_id' => $report_type->id,
             'description' => $description,
         ]);
-
-        $report->save();
-
-        return $report;
     }
 
     #endregion

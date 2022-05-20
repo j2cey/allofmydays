@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DynamicAttributes\DynamicAttribute;
-use App\Http\Requests\DynamicAttribute\StoreDynamicAttributeRequest;
-use App\Http\Requests\DynamicAttribute\UpdateDynamicAttributeRequest;
+use App\Http\Requests\DynamicRow\StoreDynamicRowRequest;
+use App\Http\Requests\DynamicRow\UpdateDynamicRowRequest;
+use App\Models\DynamicAttributes\DynamicRow;
 
-class DynamicAttributeController extends Controller
+class DynamicRowController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class DynamicAttributeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreDynamicAttributeRequest $request
+     * @param StoreDynamicRowRequest $request
      * @return void
      */
-    public function store(StoreDynamicAttributeRequest $request)
+    public function store(StoreDynamicRowRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class DynamicAttributeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param DynamicAttribute $dynamicAttribute
+     * @param DynamicRow $dynamicrow
      * @return void
      */
-    public function show(DynamicAttribute $dynamicAttribute)
+    public function show(DynamicRow $dynamicrow)
     {
         //
     }
@@ -53,10 +53,10 @@ class DynamicAttributeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param DynamicAttribute $dynamicAttribute
+     * @param DynamicRow $dynamicrow
      * @return void
      */
-    public function edit(DynamicAttribute $dynamicAttribute)
+    public function edit(DynamicRow $dynamicrow)
     {
         //
     }
@@ -64,11 +64,11 @@ class DynamicAttributeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateDynamicAttributeRequest $request
-     * @param DynamicAttribute $dynamicAttribute
+     * @param UpdateDynamicRowRequest $request
+     * @param DynamicRow $dynamicrow
      * @return void
      */
-    public function update(UpdateDynamicAttributeRequest $request, DynamicAttribute $dynamicAttribute)
+    public function update(UpdateDynamicRowRequest $request, DynamicRow $dynamicrow)
     {
         //
     }
@@ -76,10 +76,10 @@ class DynamicAttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param DynamicAttribute $dynamicAttribute
+     * @param DynamicRow $dynamicrow
      * @return void
      */
-    public function destroy(DynamicAttribute $dynamicAttribute)
+    public function destroy(DynamicRow $dynamicrow)
     {
         //
     }

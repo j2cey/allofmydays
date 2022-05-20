@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\DynamicValueInteger;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDynamicAttributeValueRequest extends FormRequest
+class UpdateDynamicValueIntegerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\DynamicRow;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDynamicValueBooleanRequest extends FormRequest
+class UpdateDynamicRowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

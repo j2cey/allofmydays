@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class DynamicValueString extends Model implements Auditable
+class DynamicValueString extends DynamicValue implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 
@@ -71,19 +71,21 @@ class DynamicValueString extends Model implements Auditable
     }
 
     public function valuerow() {
-        return $this->belongsTo(DynamicAttributeValueRow::class,"dynamic_attribute_value_row_id");
+        return $this->belongsTo(DynamicRow::class,"dynamic_attribute_value_row_id");
     }
 
     #endregion
 
     #region Custom Functions
 
-    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicAttributeValueRow $row) {
-        return DynamicValueString::create([
+    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicRow $row) {
+        $dynamicvalue = DynamicValueString::create([
             'thevalue' => $thevalue,
             'dynamic_attribute_id' => $dynamicattribute->id,
             'dynamic_attribute_value_row_id' => $row->id,
         ]);
+        $row->setLastInserted();
+        return $dynamicvalue;
     }
 
     #endregion
