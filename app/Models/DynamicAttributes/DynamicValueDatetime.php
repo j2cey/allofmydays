@@ -5,7 +5,7 @@ namespace App\Models\DynamicAttributes;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\DynamicAttribute\HasDynamicValues;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -20,14 +20,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $status_id
  *
  * @property Carbon $thevalue
- * @property integer $dynamic_attribute_value_row_id
+ * @property integer $dynamic_row_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class DynamicValueDatetime extends DynamicValue implements Auditable
+class DynamicValueDatetime extends Model
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasDynamicValues, HasFactory;
 
     protected $guarded = [];
 
@@ -65,23 +65,15 @@ class DynamicValueDatetime extends DynamicValue implements Auditable
 
     #region Eloquent Relationships
 
-    public function valuerow() {
-        return $this->belongsTo(DynamicRow::class,"dynamic_attribute_value_row_id");
-    }
+
 
     #endregion
 
     #region Custom Functions
 
-    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicRow $row) {
-
-        $dynamicvalue = DynamicValueDatetime::create([
-            'thevalue' => empty($thevalue) ? new \DateTime() : $thevalue,
-            'dynamic_attribute_id' => $dynamicattribute->id,
-            'dynamic_attribute_value_row_id' => $row->id,
-        ]);
-        $row->setLastInserted();
-        return $dynamicvalue;
+    public function getFormattedValue($thevalue)
+    {
+        return empty($thevalue) ? new \DateTime() : $thevalue;
     }
 
     #endregion

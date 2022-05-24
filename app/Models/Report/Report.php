@@ -4,9 +4,9 @@ namespace App\Models\Report;
 
 
 use App\Models\BaseModel;
-use App\Traits\DynamicAttribute\HasDynamicAttributes;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\DynamicAttribute\HasDynamicAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use http\Encoding\Stream;
 use App\Traits\Code\HasCode;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -114,22 +115,22 @@ class Subject extends BaseModel implements Auditable
     }
 
     #endregion
-    public static function getReflexiveParentIdField()
+    public static function getReflexiveParentIdField(): string
     {
         return "subject_parent_id";
     }
 
-    public static function getTitleField()
+    public static function getTitleField(): string
     {
         return "title";
     }
 
-    public static function getReflexiveFullPathField()
+    public static function getReflexiveFullPathField(): string
     {
         return "full_path";
     }
 
-    public function getReflexiveChildrenRelationName()
+    public function getReflexiveChildrenRelationName(): string
     {
         return "subsubjects";
     }

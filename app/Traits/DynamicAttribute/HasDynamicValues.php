@@ -3,45 +3,59 @@
 
 namespace App\Traits\DynamicAttribute;
 
-
+use App\Models\DynamicAttributes\DynamicRow;
+use App\Models\DynamicAttributes\DynamicValue;
 use App\Models\DynamicAttributes\DynamicAttribute;
 
 trait HasDynamicValues
 {
-    /**
-     * Get all of the model's dynamic attributes
-     * @return mixed
-     */
-    public function dynamicvalues()
-    {
-        $model_type = get_called_class();
-        return $this->morphMany($model_type, 'hasdynamicvalue');
+    abstract public function getFormattedValue($thevalue);
+
+    #region Eloquent Relationships
+
+    public function dynamicattribute() {
+        return $this->belongsTo(DynamicAttribute::class,"dynamic_attribute_id");
     }
 
-
-    /**
-     * Get the lastets of the model's dynamic attributes
-     * @return mixed
-     */
-    public function latestDynamicvalue()
-    {
-        $model_type = get_called_class();
-        return $this->morphOne($model_type, 'hasdynamicattribute')->latestOfMany();
+    public function valuerow() {
+        return $this->belongsTo(DynamicRow::class,"dynamic_row_id");
     }
 
-    /**
-     * Get the oldest of the model's dynamic attributes
-     * @return mixed
-     */
-    public function oldestDynamicvalue()
+    public function dynamicvalue()
     {
-        return $this->morphOne(DynamicAttribute::class, 'hasdynamicattribute')->oldestOfMany();
+        return $this->morphOne(DynamicValue::class, 'hasdynamicvalue');
     }
 
-    public static function bootHasReportValue()
+    #endregion
+
+    #region Custom Methods
+
+    public function setValue($thevalue, DynamicRow $row) {
+        $this->update([
+            'thevalue' => $this->getFormattedValue($thevalue),
+        ]);
+
+        $this->dynamicvalue()
+            ->create()                      // create a new DynamicValue wich will wrappe the current inner value
+            ->valuerow()->associate($row)   // associate the created DynamicValue with the given row
+            ->save();                       // save the association from the DynamicValue (the wrapper)
+
+        $row->setLastInserted();            // update the row's last inserted date
+
+        return $this;
+    }
+
+    #endregion
+
+    protected function initializeHasDynamicValues()
+    {
+        $this->with = array_unique(array_merge($this->with, ['dynamicattribute']));
+    }
+
+    public static function bootHasDynamicValues()
     {
         static::deleting(function ($model) {
-            $model->dynamicattributes()->delete();
+            $model->dynamicvalue()->delete();
         });
     }
 }

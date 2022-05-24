@@ -35,6 +35,7 @@ class DynamicRow extends BaseModel implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+    protected $with = ['dynamicvalues'];
 
     #region Validation Rules
 
@@ -78,15 +79,19 @@ class DynamicRow extends BaseModel implements Auditable
 
     #region Custom Functions
 
-    public static function createNew(DynamicAttribute $dynamicattribute) {
-        $line_num = DynamicRow::where('hasdynamicrow_type',$dynamicattribute->hasdynamicattribute_type)
+    public static function createNew($related_object) {
+        /*$line_num = DynamicRow::where('hasdynamicrow_type',$dynamicattribute->hasdynamicattribute_type)
                 ->where('hasdynamicrow_id', $dynamicattribute->hasdynamicattribute_id)->count() + 1;
         return DynamicRow::create([
-            'line_uuid' => self::generateUuid(),
             'line_num' => $line_num,
             'firstinserted_at' => Carbon::now(),
             'hasdynamicrow_type' => $dynamicattribute->hasdynamicattribute_type,
             'hasdynamicrow_id' => $dynamicattribute->hasdynamicattribute_id,
+        ]);*/
+        $line_num = $related_object->dynamicrows()->count() + 1;
+        return $related_object->dynamicrows()->create([
+            'line_num' => $line_num,
+            'firstinserted_at' => Carbon::now(),
         ]);
     }
 

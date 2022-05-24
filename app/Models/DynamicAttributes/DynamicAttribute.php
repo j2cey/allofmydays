@@ -5,6 +5,9 @@ namespace App\Models\DynamicAttributes;
 use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -38,7 +41,7 @@ class DynamicAttribute extends BaseModel implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
-    //protected $with = ['values'];
+    protected $with = ['attributetype'];
 
     #region Validation Rules
 
@@ -79,39 +82,53 @@ class DynamicAttribute extends BaseModel implements Auditable
         return $this->belongsTo(DynamicAttributeType::class,"dynamic_attribute_type_id");
     }
 
+    /**
+     * The Model which has this Attribute
+     *
+     * @return MorphTo
+     */
     public function hasdynamicattribute()
     {
         return $this->morphTo();
     }
 
-    public function dynamicvalues() {
-        return $this->hasMany(DynamicValue::class, "dynamic_attribute_id");
+    /**
+     * The (Dynqmic) values of this attribute
+     * @return HasMany
+     */
+    public function values() {
+        return $this->hasMany($this->attributetype->model_type, "dynamic_attribute_id");
+    }
+
+    /**
+     * The lastest (Dynqmic) value of this attribute
+     * @return HasOne
+     */
+    public function latestValue() {
+        return $this->hasOne($this->attributetype->model_type, "dynamic_attribute_id")
+            ->latest();
+    }
+
+    public function oldestValue() {
+        return $this->hasOne($this->attributetype->model_type, "dynamic_attribute_id")
+            ->oldest();
     }
 
     #endregion
 
     #region Custom Functions
 
-    public static function createNew($object,$name,DynamicAttributeType $attribute_type,$description): DynamicAttribute {
-        $num_ord = 1;
-        return DynamicAttribute::create([
-            'name' => $name,
-            'num_ord' => $num_ord,
-            'dynamic_attribute_type_id' => $attribute_type->id,
-            'hasdynamicattribute_type' => get_class($object),
-            'hasdynamicattribute_id' => $object->id,
-            'description' => $description,
-        ]);
-    }
-
     public function addValue($thevalue, $new_row = false) {
         if ($new_row) {
-            $values_row = DynamicRow::createNew($this);
+            // get new row
+            $values_row = DynamicRow::createNew($this->hasdynamicattribute);
         } else {
             // get last row
-            $values_row = $this->hasdynamicattribute->latestDynamicvaluerow;
+            $values_row = $this->hasdynamicattribute->latestDynamicrow;
         }
-        return $this->attributetype->model_type::createNew($thevalue, $this, $values_row);
+
+        return $this->values()->create()        // create new value object
+            ->setValue($thevalue, $values_row); // set the inner (formatted) value to the just created value object
     }
 
     #endregion

@@ -122,22 +122,22 @@ class Task extends BaseModel implements Auditable
 
     #endregion
 
-    public static function getReflexiveParentIdField()
+    public static function getReflexiveParentIdField(): string
     {
         return "task_parent_id";
     }
 
-    public static function getTitleField()
+    public static function getTitleField(): string
     {
         return "title";
     }
 
-    public static function getReflexiveFullPathField()
+    public static function getReflexiveFullPathField(): string
     {
         return "full_path";
     }
 
-    public function getReflexiveChildrenRelationName()
+    public function getReflexiveChildrenRelationName(): string
     {
         return "subtasks";
     }

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\CommentController;
@@ -13,8 +12,9 @@ use App\Http\Controllers\ExecutionController;
 use App\Http\Controllers\GradeUnitController;
 use App\Http\Controllers\SubSubjectController;
 use App\Http\Controllers\DifficultyController;
-use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\AppreciationController;
+use App\Http\Controllers\Reports\ReportController;
+use App\Http\Controllers\Reports\ReportTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,14 +56,19 @@ Route::get('/tests', function () {
     if ( is_null($report) ) {
         $report = App\Models\Report\Report::createNew("Report 01", App\Models\Report\ReportType::first(), "");
         $report->addDynamicAttribute("Att Dyn. 01", App\Models\DynamicAttributes\DynamicAttributeType::find(1)->first(), "");
+        $report->latestDynamicattribute->addValue("Test for Add value xxx 1", true);
         $report->addDynamicAttribute("Att Dyn. 02", App\Models\DynamicAttributes\DynamicAttributeType::find(2)->first(), "");
-        $report->addDynamicAttribute("Att Dyn. 02", App\Models\DynamicAttributes\DynamicAttributeType::find(3)->first(), "");
-        $report->oldestDynamicattribute->addValue("Test for Add value", true);
+        $report->latestDynamicattribute->addValue("241");
+        $report->addDynamicAttribute("Att Dyn. 02", App\Models\DynamicAttributes\DynamicAttributeType::find(4)->first(), "");
+        $report->latestDynamicattribute->addValue("0");
+
+        $report->dynamicattributes[0]->addValue("Test for the new row", true);
     }
-    //dd($report->status);
-    $report->oldestDynamicattribute->addValue("Test for Add value xxx 2", false);
+    //$report->dynamicattributes[0]->addValue("Test for the latest row", true);
+    //dd($report->latestDynamicattribute());
+    //$report->latestDynamicattribute()->addValue("Test for Add value xxx 1", true);
     //dd($report->oldestDynamicattribute->hasdynamicattribute->latestDynamicvaluerow);
-    dd($report->oldestDynamicattribute->attributetype,$report->oldestDynamicattribute->dynamicvalues,$report->oldestDynamicattribute->dynamicvalues);
+    dd($report);
     $first_report = App\Models\Report\Report::first();
     dd("first_report: ", $first_report, $first_report->dynamicattributes, $first_report->dynamicattributes[0]->values());
 });

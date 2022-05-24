@@ -3,7 +3,6 @@
 
 namespace App\Traits\DynamicAttribute;
 
-
 use App\Models\DynamicAttributes\DynamicAttribute;
 use App\Models\DynamicAttributes\DynamicAttributeType;
 
@@ -27,7 +26,7 @@ trait HasDynamicAttributes
      */
     public function latestDynamicattribute()
     {
-        return $this->morphOne(DynamicAttribute::class, 'hasdynamicattribute')->latestOfMany();
+        return $this->morphOne(DynamicAttribute::class, 'hasdynamicattribute')->latest('id');
     }
 
     /**
@@ -36,16 +35,32 @@ trait HasDynamicAttributes
      */
     public function oldestDynamicattribute()
     {
-        return $this->morphOne(DynamicAttribute::class, 'hasdynamicattribute')->oldestOfMany();
+        return $this->morphOne(DynamicAttribute::class, 'hasdynamicattribute')->oldest('id');
     }
 
+    #region Custom Functions
 
     public function addDynamicAttribute($name,DynamicAttributeType $attribute_type,$description) {
-        return DynamicAttribute::createNew($this,$name,$attribute_type,$description);
-        //$this->dynamicattributes()->save($dynamicattribute);
+        $num_ord = $this->dynamicattributes()->count() + 1;         // set the attribute number order
+        $dynamicattribute = $this->dynamicattributes()->create([
+            'name' => $name,
+            'num_ord' => $num_ord,
+            'description' => $description,
+        ])                                              // create and attach a new DynamicAttribute to the current model object
+        ->attributetype()->associate($attribute_type)   // associate the created DynamicAttribute with the given DynamicAttributeType
+        ->save();                                       // save the association from the DynamicAttribute
+
+        return $dynamicattribute;
     }
 
-    public static function bootHasReportValue()
+    #endregion
+
+    protected function initializeHasDynamicAttributes()
+    {
+        $this->with = array_unique(array_merge($this->with, ['dynamicattributes']));
+    }
+
+    public static function bootHasDynamicAttributes()
     {
         static::deleting(function ($model) {
             $model->dynamicattributes()->delete();

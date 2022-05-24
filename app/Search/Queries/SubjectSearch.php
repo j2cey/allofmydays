@@ -3,6 +3,7 @@
 namespace App\Search\Queries;
 
 use App\Models\Subject;
+use Illuminate\Database\Eloquent\Builder;
 
 class SubjectSearch extends Search
 {
@@ -11,7 +12,7 @@ class SubjectSearch extends Search
     /**
      * @inheritDoc
      */
-    protected function query()
+    protected function query(): Builder
     {
         $query = Subject::query();
         $user = auth()->user();

@@ -4,7 +4,7 @@ namespace App\Models\DynamicAttributes;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\DynamicAttribute\HasDynamicValues;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -19,15 +19,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $status_id
  *
  * @property boolean $thevalue
- * @property integer $dynamic_attribute_id
- * @property integer $dynamic_attribute_value_row_id
+ * @property integer $dynamic_row_id
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class DynamicValueBoolean extends DynamicValue implements Auditable
+class DynamicValueBoolean extends Model
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasDynamicValues, HasFactory;
 
     protected $guarded = [];
 
@@ -69,14 +68,9 @@ class DynamicValueBoolean extends DynamicValue implements Auditable
 
     #region Custom Functions
 
-    public static function createNew($thevalue, DynamicAttribute $dynamicattribute, DynamicRow $row) {
-        $dynamicvalue = DynamicValueBoolean::create([
-            'thevalue' => (bool)$thevalue,
-            'dynamic_attribute_id' => $dynamicattribute->id,
-            'dynamic_attribute_value_row_id' => $row->id,
-        ]);
-        $row->setLastInserted();
-        return $dynamicvalue;
+    public function getFormattedValue($thevalue)
+    {
+        return (bool)$thevalue;
     }
 
     #endregion

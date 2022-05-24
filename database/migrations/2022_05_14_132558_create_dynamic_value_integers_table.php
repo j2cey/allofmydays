@@ -22,14 +22,10 @@ class CreateDynamicValueIntegersTable extends Migration
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('thevalue')->comment('the definitive value');
+            $table->bigInteger('thevalue')->nullable()->comment('the definitive value');
 
             $table->foreignId('dynamic_attribute_id')->nullable()
                 ->comment('dynamic attribute reference')
-                ->constrained()->onDelete('set null');
-
-            $table->foreignId('dynamic_row_id')->nullable()
-                ->comment('dynamic attribute value row reference')
                 ->constrained()->onDelete('set null');
 
             $table->timestamps();
@@ -46,7 +42,6 @@ class CreateDynamicValueIntegersTable extends Migration
     {
         Schema::table($this->table_name, function (Blueprint $table) {
             $table->dropForeign(['dynamic_attribute_id']);
-            $table->dropForeign(['dynamic_row_id']);
         });
         Schema::dropIfExists($this->table_name);
     }
