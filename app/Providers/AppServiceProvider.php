@@ -62,5 +62,11 @@ class AppServiceProvider extends ServiceProvider
         config([
             'Settings' => Setting::getAllGrouped()
         ]);
+
+        /*Validator::extend('stepcanexpire_if', function($attribute, $value, $parameters, $validator) {
+            $rule = new StepCanExpire($parameters[0]);
+
+            return $rule->passes($attribute, $value);
+        });*/
     }
 }

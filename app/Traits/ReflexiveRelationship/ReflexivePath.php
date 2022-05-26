@@ -3,7 +3,6 @@
 
 namespace App\Traits\ReflexiveRelationship;
 
-
 use phpDocumentor\Reflection\Types\This;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -12,6 +11,7 @@ trait ReflexivePath
     abstract public static function getReflexiveParentIdField(): string;
     abstract public static function getTitleField(): string;
     abstract public static function getReflexiveFullPathField(): string;
+    abstract public static function getReflexivePathSeparator(): string;
 
     /**
      * Get model full path
@@ -26,7 +26,7 @@ trait ReflexivePath
             $elem_type = get_called_class();
             $parent = $elem_type::find($parent_id);
 
-            return $parent->{$elem_type::getReflexiveFullPathField()} . ' > ' . $title;
+            return $parent->{$elem_type::getReflexiveFullPathField()} . $elem_type::getReflexivePathSeparator() . $title;
         }
     }
 

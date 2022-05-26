@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SystemController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\ExecutionController;
@@ -15,6 +19,7 @@ use App\Http\Controllers\DifficultyController;
 use App\Http\Controllers\AppreciationController;
 use App\Http\Controllers\Reports\ReportController;
 use App\Http\Controllers\Reports\ReportTypeController;
+use App\Http\Controllers\Authorization\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,23 +32,12 @@ use App\Http\Controllers\Reports\ReportTypeController;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::get('/', function () {
     if (Auth::check()) {
         return view('admin02');
     }
     return redirect('/login');
-});
-
-Route::get('/home', function () {
-    if (Auth::check()) {
-        return view('admin02');
-    }
-    return redirect('/login');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -73,9 +67,54 @@ Route::get('/tests', function () {
     dd("first_report: ", $first_report, $first_report->dynamicattributes, $first_report->dynamicattributes[0]->values());
 });
 
+#region System Settings
+
+Route::get('systems.index',[SystemController::class,'index'])
+    ->name('systems.index')
+    ->middleware('auth');
+
+Route::resource('settings',SettingController::class);
+Route::get('settings.fetch',[SettingController::class,'fetch'])
+    ->name('settings.fetch')
+    ->middleware('auth');
+
+#endregion
+
+#region permissions & roles
+
+Route::get('permissions',[RoleController::class, 'permissions'])->middleware('auth');
+
+Route::resource('roles',RoleController::class)->middleware('auth');
+Route::get('roles.fetch',[RoleController::class,'fetch'])
+    ->name('roles.fetch')
+    ->middleware('auth');
+Route::get('hasrole/{roleid}',[RoleController::class, 'hasrole'])->middleware('auth');
+
+Route::resource('users',UserController::class)->middleware('auth');
+Route::get('users.fetch',[UserController::class,'fetch'])
+    ->name('users.fetch')
+    ->middleware('auth');
+Route::get('users.fetchall',[UserController::class,'fetchall'])
+    ->name('users.fetchall')
+    ->middleware('auth');
+
+#endregion
+
+Route::resource('statuses',StatusController::class);
+Route::get('statuses.fetch',[StatusController::class,'fetch'])
+    ->name('statuses.fetch')
+    ->middleware('auth');
+Route::get('statuses.fetchone/{id}',[StatusController::class,'fetchone'])
+    ->name('statuses.fetchone')
+    ->middleware('auth');
+
+#region subjects
+
 Route::resource('subjects',SubjectController::class)->middleware('auth');
 Route::resource('subsubjects',SubSubjectController::class)->middleware('auth');
 Route::get('/subject/fetch', [SubjectController::class, 'fetch'])->name('subject.fetch');
+
+#endregion
 
 Route::resource('categories',CategoryController::class)->middleware('auth');
 Route::resource('tasks',TaskController::class)->middleware('auth');

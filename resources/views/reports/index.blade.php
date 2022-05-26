@@ -1,4 +1,4 @@
-@extends('app')
+@extends('app', ['page_title' => "Reports"])
 
 @section('app_content')
 

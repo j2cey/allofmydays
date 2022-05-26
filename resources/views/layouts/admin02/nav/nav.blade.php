@@ -17,6 +17,7 @@
                 <li class="nav-item">
                     <a href="/dashboards" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
+
                 @if(false)
                 <li class="nav-item dropdown">
                     <a id="dropdownSubjects" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Subjects</a>
@@ -34,6 +35,7 @@
                     </ul>
                 </li>
                 @endif
+
                 <li class="nav-item dropdown">
                     <a id="dropdownReports" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reports</a>
                     <ul aria-labelledby="dropdownReports" class="dropdown-menu border-0 shadow">
@@ -47,15 +49,16 @@
                     </ul>
                 </li>
 
+                @role('Admin')
                 <li class="nav-item dropdown">
-                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <a id="usersMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
+                    <ul aria-labelledby="usersMenu" class="dropdown-menu border-0 shadow">
                         <li class="nav-item">
                             <a href="/users" class="nav-link">Liste</a>
                         </li>
                         <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Profiles</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
+                            <a id="rolesMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Profiles</a>
+                            <ul aria-labelledby="rolesMenu" class="dropdown-menu border-0 shadow">
                                 <li class="nav-item">
                                     <a href="/roles" class="nav-link">Liste</a>
                                 </li>
@@ -63,6 +66,19 @@
                         </li>
                     </ul>
                 </li>
+                @endrole
+
+                @role('Admin')
+                <li class="nav-item dropdown">
+                    <a id="systemsMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">System</a>
+                    <ul aria-labelledby="systemsMenu" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/systems.index" class="nav-link">Index</a>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
+
             </ul>
 
             <!-- SEARCH FORM -->

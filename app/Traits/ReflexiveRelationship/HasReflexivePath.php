@@ -17,8 +17,10 @@ trait HasReflexivePath
             // We rebuild the whole path
             $model->rebuildFullPath();
             // We rebuild all children whole path
-            foreach ($model->{$model->getReflexiveChildrenRelationName()} as $child) {
-                $child->rebuildFullPath();
+            if ( ! is_null($model->{$model->getReflexiveChildrenRelationName()}) ) {
+                foreach ($model->{$model->getReflexiveChildrenRelationName()} as $child) {
+                    $child->rebuildFullPath();
+                }
             }
         });
     }

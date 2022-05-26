@@ -104,6 +104,18 @@ Vue.use(Buefy)
  * end Added
  */
 
+/**
+ * Added laravel-permission-to-vuejs
+ */
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
+//Vue.use(LaravelPermissionToVueJS)
+/**
+ * end Added
+ */
+
+import Permissions from './mixins/Permissions';
+Vue.mixin(Permissions);
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -120,7 +132,9 @@ Vue.component('vue-datepicker', require('vuejs-datepicker').default);
 Vue.component('dashboard-index', require('./views/dashboard/index').default);
 Vue.component("rawDisplayer", rawDisplayer);
 
+Vue.component('systems-index', require('./views/systems/index').default);
 Vue.component('user-show', require('./views/users/show').default);
+
 Vue.component('subject-create', require('./views/subjects/addupdate').default);
 Vue.component('subject-details', require('./views/subjects/details').default);
 

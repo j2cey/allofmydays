@@ -24,6 +24,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
+    <script type="text/javascript">
+        window.Laravel = {
+            csrfToken: "{{ csrf_token() }}",
+            jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():0 !!}
+        }
+    </script>
+
+    <script>
+        @auth
+            window.Permissions = {!! json_encode(Auth::user()->allPermissions, true) !!};
+        @else
+            window.Permissions = [];
+        @endauth
+    </script>
 </head>
 
 
