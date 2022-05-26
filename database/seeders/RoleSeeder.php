@@ -14,6 +14,6 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $defaultrole = Role::create(['name' => 'Simple User']);
+        $defaultrole = Role::create(['name' => 'Simple UserResource']);
     }
 }

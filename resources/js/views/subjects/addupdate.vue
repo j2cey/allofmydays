@@ -131,7 +131,7 @@
                         console.log("subject_created: ",data)
 
                         this.$swal({
-                            title: 'Subject successfully created !',
+                            title: 'SubjectResource successfully created !',
                             text: 'Create a new One ?',
                             type: 'success',
                             icon: 'success',
@@ -161,7 +161,7 @@
                         .put(`/subsubjects/${this.subjectId}`, undefined)
                         .then(data => {
                             this.loading = false
-                            this.$swal('Subject successful updated!', '', 'success').then(() => {
+                            this.$swal('SubjectResource successful updated!', '', 'success').then(() => {
                                 this.close()
                             })
 
@@ -176,7 +176,7 @@
                         .put(`/subjects/${this.subjectId}`, undefined)
                         .then(data => {
                             this.loading = false
-                            this.$swal('Subject successful updated!', '', 'success').then(() => {
+                            this.$swal('SubjectResource successful updated!', '', 'success').then(() => {
                                 this.close()
                             })
 

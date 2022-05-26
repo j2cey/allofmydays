@@ -18,7 +18,7 @@ return [
      * and an array of relation names to ignore.
      */
     'ignore' => [
-        // User::class,
+        // UserResource::class,
         // Post::class => [
         //     'user'
         // ]
@@ -31,7 +31,7 @@ return [
      * Note: that if this array is filled, the 'ignore' array will not be used.
     */
     'whitelist' => [
-        // App\User::class,
+        // App\UserResource::class,
         // App\Post::class,
     ],
 

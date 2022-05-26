@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class FetchRequest
- * @package App\Http\Requests\Subject
+ * @package App\Http\Requests\SubjectResource
  *
  * @property string|null $category
  */

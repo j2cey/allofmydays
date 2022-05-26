@@ -22,7 +22,7 @@
 <path fill="none" stroke="#000000" d="M793.6425,-240.2238C804.1639,-235.8402 811.3085,-226.2656 811.3085,-211.5 811.3085,-196.7344 804.1639,-187.1598 793.6425,-182.7762"></path>
 <text text-anchor="middle" x="796.422" y="-185.7762" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">1</text>
 </g>
-<!-- Subject -->
+<!-- SubjectResource -->
 <g id="node2" class="node">
 <title>Subject</title>
 <polygon fill="none" stroke="#000000" points="63.841,-338.5 63.841,-470.5 197.359,-470.5 197.359,-338.5 63.841,-338.5"></polygon>
@@ -38,7 +38,7 @@
 <polyline fill="none" stroke="#000000" points="63.841,-358.5 197.359,-358.5 "></polyline>
 <text text-anchor="middle" x="130.6" y="-345.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Subject&#45;&gt;Subject -->
+<!-- SubjectResource&#45;&gt;SubjectResource -->
 <g id="edge4" class="edge">
 <title>Subject-&gt;Subject</title>
 <path fill="none" stroke="#000000" d="M197.3996,-437.6523C208.0612,-432.8008 215.359,-421.75 215.359,-404.5 215.359,-387.25 208.0612,-376.1992 197.3996,-371.3477"></path>
@@ -56,7 +56,7 @@
 <polyline fill="none" stroke="#000000" points="0,-189.5 115.2,-189.5 "></polyline>
 <text text-anchor="middle" x="57.6" y="-176.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Subject&#45;&gt;Goal -->
+<!-- SubjectResource&#45;&gt;Goal -->
 <g id="edge3" class="edge">
 <title>Subject-&gt;Goal</title>
 <path fill="none" stroke="#000000" d="M105.5797,-338.3504C94.9724,-310.3064 82.925,-278.4552 73.5558,-253.6846"></path>
@@ -73,7 +73,7 @@
 <polyline fill="none" stroke="#000000" points="133.497,-195.5 273.703,-195.5 "></polyline>
 <text text-anchor="middle" x="203.6" y="-182.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Subject&#45;&gt;Category -->
+<!-- SubjectResource&#45;&gt;Category -->
 <g id="edge2" class="edge">
 <title>Subject-&gt;Category</title>
 <path fill="none" stroke="#000000" d="M155.6203,-338.3504C167.0944,-308.0149 180.2534,-273.2245 189.885,-247.7602"></path>
@@ -90,7 +90,7 @@
 <polyline fill="none" stroke="#000000" points="345.507,-195.5 435.693,-195.5 "></polyline>
 <text text-anchor="middle" x="390.6" y="-182.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Subject&#45;&gt;Comment -->
+<!-- SubjectResource&#45;&gt;Comment -->
 <g id="edge14" class="edge">
 <title>Subject-&gt;Comment</title>
 <path fill="none" stroke="#000000" d="M197.4448,-355.1112C206.4194,-349.1052 215.6261,-343.2464 224.6,-338 256.8661,-319.1363 270.0784,-323.5725 300.6,-302 322.495,-286.5247 343.7987,-265.4604 360.1787,-247.5476"></path>
@@ -107,7 +107,7 @@
 <polyline fill="none" stroke="#000000" points="525.172,-195.5 602.028,-195.5 "></polyline>
 <text text-anchor="middle" x="563.6" y="-182.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Subject&#45;&gt;Note -->
+<!-- SubjectResource&#45;&gt;Note -->
 <g id="edge15" class="edge">
 <title>Subject-&gt;Note</title>
 <path fill="none" stroke="#000000" d="M197.5429,-351.8222C206.3141,-346.5401 215.4439,-341.7525 224.6,-338 316.2777,-300.4276 353.5837,-341.1474 444.6,-302 474.762,-289.0269 504.1723,-266.777 526.2089,-247.5862"></path>
@@ -158,7 +158,7 @@
 <polyline fill="none" stroke="#000000" points="479.1085,-527.5 622.0915,-527.5 "></polyline>
 <text text-anchor="middle" x="550.6" y="-514.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Task&#45;&gt;Subject -->
+<!-- Task&#45;&gt;SubjectResource -->
 <g id="edge11" class="edge">
 <title>Task-&gt;Subject</title>
 <path fill="none" stroke="#000000" d="M478.8597,-575.3534C390.1376,-540.387 247.9111,-483.7615 224.6,-471 215.5696,-466.0564 206.3683,-460.4105 197.4304,-454.5451"></path>
@@ -352,7 +352,7 @@
 <polyline fill="none" stroke="#000000" points="283.555,-756.5 397.645,-756.5 "></polyline>
 <text text-anchor="middle" x="340.6" y="-743.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> </text>
 </g>
-<!-- Planning&#45;&gt;Subject -->
+<!-- Planning&#45;&gt;SubjectResource -->
 <g id="edge21" class="edge">
 <title>Planning-&gt;Subject</title>
 <path fill="none" stroke="#000000" d="M308.2477,-736.1091C269.7628,-664.2705 205.7389,-544.7593 165.9727,-470.5291"></path>

@@ -17,6 +17,7 @@
                 <li class="nav-item">
                     <a href="/dashboards" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
+                @if(false)
                 <li class="nav-item dropdown">
                     <a id="dropdownSubjects" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Subjects</a>
                     <ul aria-labelledby="dropdownSubjects" class="dropdown-menu border-0 shadow">
@@ -32,6 +33,20 @@
                         <!-- End Level two -->
                     </ul>
                 </li>
+                @endif
+                <li class="nav-item dropdown">
+                    <a id="dropdownReports" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reports</a>
+                    <ul aria-labelledby="dropdownReports" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item">
+                            <a href="/reports" class="nav-link">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/reporttypes" class="nav-link">Report Types</a>
+                        </li>
+                        <!-- End Level two -->
+                    </ul>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Utilisateurs</a>
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">

@@ -115,7 +115,7 @@
   text-align: center;
 }
 
-// Add fade animation to dropdown menus by appending 
+// Add fade animation to dropdown menus by appending
 // the class .animated-dropdown-menu to the .dropdown-menu ul (or ol)
 .open:not(.dropup) > .animated-dropdown-menu {
   @include animation(flipInX .7s both);
@@ -176,7 +176,7 @@
   }
 }
 
-// User Menu
+// UserResource Menu
 .navbar-nav > .user-menu {
   > .nav-link:after {
     content:none;
@@ -198,7 +198,7 @@
       padding: 10px;
       text-align: center;
 
-      // User image
+      // UserResource image
       > img {
         z-index: 5;
         height: 90px;

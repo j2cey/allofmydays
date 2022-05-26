@@ -102,7 +102,7 @@
             /*SubjectBus.$on('subsubject_edit', (subject, subjectParentId) => {
                 this.editing = true
                 this.isSubsubject = true
-                this.subject = new Subject(subject)
+                this.subject = new SubjectResource(subject)
                 this.subject.subject_parent_id = subjectParentId
                 this.subjectForm = new Form(this.subject)
                 this.subjectId = subject.uuid

@@ -17,10 +17,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Morph prefix & Guards
+    | UserResource Morph prefix & Guards
     |--------------------------------------------------------------------------
     |
-    | Define the morph prefix and authentication guards for the User resolver.
+    | Define the morph prefix and authentication guards for the UserResource resolver.
     |
     */
 
@@ -37,7 +37,7 @@ return [
     | Audit Resolvers
     |--------------------------------------------------------------------------
     |
-    | Define the User, IP Address, User Agent and URL resolver implementations.
+    | Define the UserResource, IP Address, UserResource Agent and URL resolver implementations.
     |
     */
     'resolver' => [

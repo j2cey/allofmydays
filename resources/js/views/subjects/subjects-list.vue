@@ -63,7 +63,7 @@
                 })
                 this.subjects.splice(subjectIndex, 1, subject)
                 window.noty({
-                    message: 'Subject successfully modified',
+                    message: 'SubjectResource successfully modified',
                     type: 'success'
                 })
             },
@@ -74,7 +74,7 @@
                 // if this subject does not already exists, it is inserted in the list
                 if (subjectIndex === -1) {
                     window.noty({
-                        message: 'Subject successfully created',
+                        message: 'SubjectResource successfully created',
                         type: 'success'
                     })
                     this.subjects.push(subject)
@@ -87,7 +87,7 @@
                 // if this subject exists, it is removed from list
                 if (subjectIndex !== -1) {
                     window.noty({
-                        message: 'Subject successfully deleted',
+                        message: 'SubjectResource successfully deleted',
                         type: 'success'
                     })
                     this.subjects.splice(subjectIndex, 1)

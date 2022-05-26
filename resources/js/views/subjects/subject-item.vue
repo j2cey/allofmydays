@@ -136,7 +136,7 @@
             },
             updateSubject(subject) {
                 window.noty({
-                    message: 'Subject successfully deleted',
+                    message: 'SubjectResource successfully deleted',
                     type: 'success'
                 })
                 this.subject = subject

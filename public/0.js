@@ -10,6 +10,10 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _commentBus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./commentBus */ "./resources/js/views/comments/commentBus.js");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 //
@@ -33,7 +37,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //
 
 
-var Comment = function Comment(comment) {
+var Comment = /*#__PURE__*/_createClass(function Comment(comment) {
   _classCallCheck(this, Comment);
 
   this.comment_text = comment.comment_text || '';
@@ -41,7 +45,7 @@ var Comment = function Comment(comment) {
   this.model_type = comment.model_type || '';
   this.model_id = comment.model_id || '';
   this.posi = comment.posi || '';
-};
+});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "comment-addupdate",
@@ -143,6 +147,10 @@ var Comment = function Comment(comment) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _commentBus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./commentBus */ "./resources/js/views/comments/commentBus.js");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 //
@@ -170,7 +178,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //
 
 
-var Comment = function Comment(comment) {
+var Comment = /*#__PURE__*/_createClass(function Comment(comment) {
   _classCallCheck(this, Comment);
 
   this.comment_text = comment.comment_text || '';
@@ -178,7 +186,7 @@ var Comment = function Comment(comment) {
   this.model_type = comment.model_type || '';
   this.model_id = comment.model_id || '';
   this.posi = comment.posi || '';
-};
+});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "comment-item",
@@ -351,7 +359,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -362,13 +370,13 @@ var render = function() {
         {
           staticClass: "form-horizontal",
           on: {
-            submit: function($event) {
+            submit: function ($event) {
               $event.preventDefault()
             },
-            keydown: function($event) {
+            keydown: function ($event) {
               return _vm.commentForm.errors.clear()
-            }
-          }
+            },
+          },
         },
         [
           _c("div", { staticClass: "input-group" }, [
@@ -378,8 +386,8 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.commentForm.comment_text,
-                  expression: "commentForm.comment_text"
-                }
+                  expression: "commentForm.comment_text",
+                },
               ],
               staticClass: "form-control",
               attrs: {
@@ -387,17 +395,17 @@ var render = function() {
                 name: "comment_text",
                 autocomplete: "comment_text",
                 autofocus: "",
-                placeholder: "Type Comment ..."
+                placeholder: "Type Comment ...",
               },
               domProps: { value: _vm.commentForm.comment_text },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.commentForm, "comment_text", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _vm.commentForm.errors.has("comment_text")
@@ -407,8 +415,8 @@ var render = function() {
                   domProps: {
                     textContent: _vm._s(
                       _vm.commentForm.errors.get("comment_text")
-                    )
-                  }
+                    ),
+                  },
                 })
               : _vm._e(),
             _vm._v(" "),
@@ -419,13 +427,13 @@ var render = function() {
                   staticClass: "btn btn-secondary btn-sm",
                   attrs: { type: "button" },
                   on: {
-                    click: function($event) {
+                    click: function ($event) {
                       return _vm.initCommentForm(
                         _vm.model_type_prop,
                         _vm.model_id_prop
                       )
-                    }
-                  }
+                    },
+                  },
                 },
                 [_vm._v("Cancel")]
               ),
@@ -437,13 +445,13 @@ var render = function() {
                       staticClass: "btn btn-warning btn-sm",
                       attrs: {
                         type: "button",
-                        disabled: !_vm.isValidCreateForm
+                        disabled: !_vm.isValidCreateForm,
                       },
                       on: {
-                        click: function($event) {
+                        click: function ($event) {
                           return _vm.updateComment(_vm.modelType, _vm.modelId)
-                        }
-                      }
+                        },
+                      },
                     },
                     [_vm._v("Update")]
                   )
@@ -453,21 +461,21 @@ var render = function() {
                       staticClass: "btn btn-warning btn-sm",
                       attrs: {
                         type: "button",
-                        disabled: !_vm.isValidCreateForm
+                        disabled: !_vm.isValidCreateForm,
                       },
                       on: {
-                        click: function($event) {
+                        click: function ($event) {
                           return _vm.createComment(_vm.modelType, _vm.modelId)
-                        }
-                      }
+                        },
+                      },
                     },
                     [_vm._v("Create")]
-                  )
-            ])
-          ])
+                  ),
+            ]),
+          ]),
         ]
-      )
-    ])
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -488,7 +496,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -499,8 +507,8 @@ var render = function() {
           "\n            " + _vm._s(_vm.comment.user.name) + "\n            "
         ),
         _c("span", { staticClass: "text-muted float-right" }, [
-          _vm._v(_vm._s(_vm._f("formatDate")(_vm.comment.created_at)))
-        ])
+          _vm._v(_vm._s(_vm._f("formatDate")(_vm.comment.created_at))),
+        ]),
       ]),
       _vm._v(" "),
       _c("small", [
@@ -510,14 +518,14 @@ var render = function() {
             {
               staticClass: "text-success",
               on: {
-                click: function($event) {
+                click: function ($event) {
                   return _vm.editComment(
                     _vm.comment,
                     _vm.model_type,
                     _vm.model_id
                   )
-                }
-              }
+                },
+              },
             },
             [_vm._m(0)]
           ),
@@ -527,37 +535,37 @@ var render = function() {
             {
               staticClass: "text-danger",
               on: {
-                click: function($event) {
+                click: function ($event) {
                   return _vm.deleteComment(_vm.comment)
-                }
-              }
+                },
+              },
             },
             [_vm._m(1)]
-          )
+          ),
         ]),
         _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.comment.comment_text))])
-      ])
-    ])
+        _c("span", [_vm._v(_vm._s(_vm.comment.comment_text))]),
+      ]),
+    ]),
   ])
 }
 var staticRenderFns = [
-  function() {
+  function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "badge badge-default" }, [
-      _c("i", { staticClass: "fa fa-pencil-square-o" })
+      _c("i", { staticClass: "fa fa-pencil-square-o" }),
     ])
   },
-  function() {
+  function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "badge badge-default" }, [
-      _c("i", { staticClass: "fa fa-trash-o" })
+      _c("i", { staticClass: "fa fa-trash-o" }),
     ])
-  }
+  },
 ]
 render._withStripped = true
 
@@ -576,7 +584,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -584,7 +592,7 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "todo-list", attrs: { "data-widget": "todo-list" } },
-      _vm._l(_vm.comments, function(comment, idx) {
+      _vm._l(_vm.comments, function (comment, idx) {
         return _c(
           "li",
           { key: comment.id, staticClass: "list-group-item" },
@@ -593,9 +601,9 @@ var render = function() {
               attrs: {
                 comment_prop: comment,
                 model_type_prop: _vm.model_type,
-                model_id_prop: _vm.model_id
-              }
-            })
+                model_id_prop: _vm.model_id,
+              },
+            }),
           ],
           1
         )
@@ -609,12 +617,12 @@ var render = function() {
         _c("comment-addupdate", {
           attrs: {
             model_type_prop: _vm.model_type,
-            model_id_prop: _vm.model_id
-          }
-        })
+            model_id_prop: _vm.model_id,
+          },
+        }),
       ],
       1
-    )
+    ),
   ])
 }
 var staticRenderFns = []

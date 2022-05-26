@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\ReflexiveRelationship\HasReflexivePath;
 
 /**
- * Class Subject
+ * Class SubjectResource
  * @package App\Models
  *
  * @property integer $id

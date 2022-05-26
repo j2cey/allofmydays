@@ -20,6 +20,10 @@
     <!-- bootstrap slider -->
     <link href="{{ asset('AdminLTE/plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}" rel="stylesheet">
 
+    <!-- Buefy -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
 </head>
 
 

@@ -7,7 +7,7 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Resources\SearchCollection;
 use App\Http\Requests\Subject\FetchRequest;
-use App\Http\Resources\Subject as SubjectResource;
+use App\Http\Resources\SubjectResource as SubjectResource;
 use App\Http\Requests\Subject\CreateSubjectRequest;
 use App\Repositories\Contracts\ISubjectRepositoryContract;
 
