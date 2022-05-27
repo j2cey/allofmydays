@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
             ['role-create', 1],
             ['role-edit', 1],
             ['role-delete', 1],
+
             ['workflow-list', 4],
             ['workflow-create', 3],
             ['workflow-edit', 3],

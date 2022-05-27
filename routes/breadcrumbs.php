@@ -4,7 +4,7 @@ use Tabuna\Breadcrumbs\Trail;
 use Tabuna\Breadcrumbs\Breadcrumbs;
 
 Breadcrumbs::for('home', function ($trail) {
-    $trail->push('Hello Home', route('home'));
+    $trail->push('Home', route('home'));
 });
 
 // System

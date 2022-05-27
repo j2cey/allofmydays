@@ -1,149 +1,89 @@
 <template>
-    <div class="container">
-    <div class="row">
-        <div class="col-md-3">
+    <div class="card card-default">
+        <div class="card-header">
+            <div class="form-inline float-left">
+                <span class="help-inline pr-1 text-sm"> List of Reports in the System </span>
+                <b-button size="is-small" type="is-info is-light" @click="createNewReport()"><i class="fas fa-plus"></i></b-button>
+            </div>
 
-            <!-- Profile Image -->
-            <div class="card card-primary card-outline">
-                <div class="card-body box-profile">
+            <div class="card-tools">
 
-                    <h6 class="profile-username text-center text-sm">subject.title</h6>
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <!--<input type="text" name="table_search" class="form-control float-right" placeholder="Search">-->
 
-                    <p class="text-muted text-center text-sm font-weight-light">subject.description</p>
-                    <p class="text-muted text-center font-italic">
-                        <small>subject.full_path</small>
-                    </p>
-
-                    <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item text text-sm">
-                            <b>Category</b> <a class="float-right">subject.category.title</a>
-                        </li>
-                        <li class="list-group-item text text-sm">
-                            <b>Subject-Parent</b> <a class="float-right">subject.subjectparent.title</a>
-                        </li>
-                    </ul>
-
-                    <a class="btn btn-primary btn-block btn-sm"><b>Edit</b></a>
+                    <!--<div class="input-group-append">
+                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>-->
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#tasks" data-toggle="tab">Tasks</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#subsubjects" data-toggle="tab">Sub-subject</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#planning" data-toggle="tab">Planning</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                    </ul>
-                </div><!-- /.card-header -->
-                <div class="card-body">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="tasks">
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div id="reportlist">
 
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <span class="badge badge-default">
-                                            Tasks of the Subject <span class="badge badge-pill badge-dark">subject.tasks.length</span>
-                                        </span>
-                                    </h3>
+                <ReportItem v-for="(report, index) in reports" :key="report.id" :report_prop="report" :index_prop="index"></ReportItem>
 
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-sm btn-info float-right" @click="alert('Button clicked')"><i class="fas fa-plus"></i> Task</button>
-                                    </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body" id="taskslist">
-                                    <!-- Tasks List-->
-                                    Tasks List
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm">
-                                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.tab-pane -->
-
-                        <div class="tab-pane" id="subsubjects">
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <span class="badge badge-default">
-                                            Sub-Subjects <span class="badge badge-pill badge-dark">subject.subsubjects.length</span>
-                                        </span>
-                                    </h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-sm btn-warning float-right" @click="alert('Button clicked !')"><i class="fas fa-plus"></i> Sub-Subject</button>
-                                    </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body" id="subsubjectslist">
-                                    <!-- Subsubject List-->
-                                    Subject list
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm">
-                                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.tab-pane -->
-
-                        <div class="tab-pane" id="planning">
-
-                            <planning></planning>
-
-                        </div>
-                        <!-- /.tab-pane -->
-
-                        <div class="tab-pane" id="timeline">
-                            <timeline></timeline>
-                        </div>
-                        <!-- /.tab-pane -->
-                    </div>
-                    <!-- /.tab-content -->
-                </div><!-- /.card-body -->
             </div>
-            <!-- /.nav-tabs-custom -->
         </div>
-        <!-- /.col -->
-
+        <!-- /.card-body -->
+        <AddUpdateWorflow></AddUpdateWorflow>
     </div>
-    <!-- /.row -->
-    </div>
+    <!-- /.card -->
 </template>
 
 <script>
-    import planning from "../subjects/planning";
-    import timeline from "../subjects/timeline";
+    import AddUpdateWorflow from './addupdate'
 
     export default {
-        name: "report-index",
-        props: {
-            subject_prop: {}
+        name: "reports-index",
+        mounted() {
+            this.$on('new_report_created', (report) => {
+                window.noty({
+                    message: 'Report créé avec succès',
+                    type: 'success'
+                })
+                // insert the just created report in the reports list
+                this.reports.push(report)
+            })
         },
-        components: { planning, timeline },
+        components: {
+            ReportItem: () => import('../reports/item'),
+            AddUpdateWorflow
+        },
+        data() {
+            return {
+                reports: []
+            }
+        },
+        created() {
+            axios.get('/reports.fetch')
+                .then(({data}) => this.reports = data);
+        },
+        methods: {
+            createNewReport() {
+                this.$emit('create_new_report')
+            },
+            createNewStep(report) {
+                axios.get(`/reportsteps.fetchbyreport/${report.id}`)
+                    .then((resp => {
+                        this.$emit('reportstep_create', report, resp.data)
+                    }));
+            },
+            deleteReport(id, key) {
+                if(confirm('Voulez-vous vraiment supprimer ?')) {
+                    axios.delete(`/reports/${id}`)
+                        .then(resp => {
+                            this.reports.splice(key, 1)
+                            window.noty({
+                                message: 'Campagne supprimée avec succès',
+                                type: 'success'
+                            })
+                        }).catch(error => {
+                        window.handleErrors(error)
+                    })
+                }
+            }
+        }
     }
 </script>
 

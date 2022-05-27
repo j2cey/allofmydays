@@ -156,4 +156,10 @@ Route::resource('gradeunits',GradeUnitController::class)->middleware('auth');
 |
 */
 Route::resource('reporttypes',ReportTypeController::class)->middleware('auth');
+Route::get('reporttypes.fetch',[ReportTypeController::class,'fetch'])
+    ->name('reporttypes.fetch')
+    ->middleware('auth');
 Route::resource('reports',ReportController::class)->middleware('auth');
+Route::get('reports.fetch',[ReportController::class,'fetch'])
+    ->name('reports.fetch')
+    ->middleware('auth');
