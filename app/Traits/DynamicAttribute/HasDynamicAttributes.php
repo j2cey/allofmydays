@@ -46,9 +46,9 @@ trait HasDynamicAttributes
             'name' => $name,
             'num_ord' => $num_ord,
             'description' => $description,
-        ])                                              // create and attach a new DynamicAttribute to the current model object
-        ->attributetype()->associate($attribute_type)   // associate the created DynamicAttribute with the given DynamicAttributeType
-        ->save();                                       // save the association from the DynamicAttribute
+        ])                                                  // create and attach a new DynamicAttribute to the current model object
+        ->attributetype()->associate($attribute_type);      // associate the created DynamicAttribute with the given DynamicAttributeType
+        $dynamicattribute->save();                          // save the association from the DynamicAttribute
 
         return $dynamicattribute;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Report\Report;
+use App\Models\Reports\Report;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

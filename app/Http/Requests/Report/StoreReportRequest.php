@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Report;
 
+use App\Models\Reports\Report;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReportRequest extends FormRequest
+class StoreReportRequest extends ReportRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class StoreReportRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,18 @@ class StoreReportRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return Report::createRules();
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'reporttype' => $this->setRelevantReportType($this->input('reporttype')),
+        ]);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="addUpdateWorkflow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addUpdateReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -53,9 +53,9 @@
 
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <b-button type="is-dark" size="is-small" data-dismiss="modal">Fermer</b-button>
-                    <b-button type="is-primary" size="is-small" :loading="loading" @click="updateWorkflow()" :disabled="!isValidCreateForm" v-if="editing">Enregistrer</b-button>
-                    <b-button type="is-primary" size="is-small" :loading="loading" @click="createWorkflow()" :disabled="!isValidCreateForm" v-else>Créer Workflow</b-button>
+                    <b-button type="is-dark" size="is-small" data-dismiss="modal">Close</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="updateReport()" :disabled="!isValidCreateForm" v-if="editing">Save</b-button>
+                    <b-button type="is-primary" size="is-small" :loading="loading" @click="createReport()" :disabled="!isValidCreateForm" v-else>Create Report</b-button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -67,9 +67,9 @@
 <script>
     import Multiselect from 'vue-multiselect'
 
-    import WorkflowBus from "./reportBus";
+    import ReportBus from "./reportBus";
 
-    class Workflow {
+    class Report {
         constructor(report) {
             this.title = report.title || ''
             this.reporttype = report.reporttype || ''
@@ -85,34 +85,34 @@
             this.$parent.$on('create_new_report', () => {
 
                 this.editing = false
-                this.report = new Workflow({})
+                this.report = new Report({})
                 this.reportForm = new Form(this.report)
 
                 this.formTitle = 'Create New Report'
 
-                $('#addUpdateWorkflow').modal()
+                $('#addUpdateReport').modal()
             })
 
-            WorkflowBus.$on('edit_report', ({ report }) => {
+            ReportBus.$on('edit_report', ({ report }) => {
                 this.editing = true
-                this.report = new Workflow(report)
+                this.report = new Report(report)
                 this.reportForm = new Form(this.report)
                 this.reportId = report.uuid
 
-                this.formTitle = 'Update Report'
+                this.formTitle = 'Edit Report'
 
-                $('#addUpdateWorkflow').modal()
+                $('#addUpdateReport').modal()
             })
         },
         created() {
-            axios.get('/reporttypes.fetch')
+            axios.get('/reporttypes.fetchall')
                 .then(({data}) => this.reporttypes = data);
         },
         data() {
             return {
                 formTitle: 'Create Report',
                 report: {},
-                reportForm: new Form(new Workflow({})),
+                reportForm: new Form(new Report({})),
                 reportId: null,
                 editing: false,
                 loading: false,
@@ -120,28 +120,36 @@
             }
         },
         methods: {
-            createWorkflow() {
+            createReport() {
                 this.loading = true
 
                 this.reportForm
                     .post('/reports')
                     .then(newreport => {
                         this.loading = false
-                        this.$parent.$emit('new_report_created', newreport)
-                        $('#addUpdateWorkflow').modal('hide')
+                        //this.$parent.$emit('new_report_created', newreport)
+                        this.$swal({
+                            html: '<small>Report successfully created !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            $('#addUpdateReport').modal('hide')
+                            window.location = '/reports'
+                        })
+
                     }).catch(error => {
                     this.loading = false
                 });
             },
-            updateWorkflow() {
+            updateReport() {
                 this.loading = true
 
                 this.reportForm
                     .put(`/reports/${this.reportId}`,undefined)
                     .then(updreport => {
                         this.loading = false
-                        WorkflowBus.$emit('report_updated', updreport)
-                        $('#addUpdateWorkflow').modal('hide')
+                        ReportBus.$emit('report_updated', updreport)
+                        $('#addUpdateReport').modal('hide')
                     }).catch(error => {
                     this.loading = false
                 });

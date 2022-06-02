@@ -4,8 +4,10 @@ namespace App\Http\Resources\Report;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\Reports\Report;
 use App\Http\Resources\StatusResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\DynamicAttributes\DynamicAttributeResource;
 
 /**
  * Class ReportResource
@@ -44,6 +46,14 @@ class ReportResource extends JsonResource
             'description' => $this->description,
 
             'reporttype' => ReportTypeResource::make($this->reporttype),
+            'attributes' => DynamicAttributeResource::collection($this->dynamicattributes),
+            'model_type' => Report::class,
+
+            'created_at' => $this->created_at,
+
+            'show_url' => route('reports.show', $this->uuid),
+            'edit_url' => route('reports.edit', $this->uuid),
+            'destroy_url' => route('reports.destroy', $this->uuid),
         ];
     }
 }

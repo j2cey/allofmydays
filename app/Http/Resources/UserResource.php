@@ -31,6 +31,9 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
+
+            'created_at' => $this->created_at,
+
             'edit_url' => route('users.edit', $this->uuid),
             'destroy_url' => route('users.destroy', $this->uuid),
         ];

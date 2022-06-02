@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Status;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Contracts\View\Factory;
 use App\Http\Resources\SearchCollection;
 use App\Http\Requests\Subject\FetchRequest;
+use Illuminate\Contracts\Foundation\Application;
 use App\Http\Resources\SubjectResource as SubjectResource;
 use App\Http\Requests\Subject\CreateSubjectRequest;
 use App\Repositories\Contracts\ISubjectRepositoryContract;
@@ -35,7 +38,7 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\Contracts\View\View|Response
      */
     public function index()
     {
@@ -62,7 +65,7 @@ class SubjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\Contracts\View\View|Response
      */
     public function create()
     {
@@ -72,8 +75,8 @@ class SubjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Subject
      */
     public function store(Request $request)
     {
@@ -92,7 +95,7 @@ class SubjectController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Subject $subject)
     {
@@ -105,7 +108,7 @@ class SubjectController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Subject $subject)
     {
@@ -117,9 +120,9 @@ class SubjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Subject $subject)
     {
@@ -137,7 +140,7 @@ class SubjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Subject $subject)
     {

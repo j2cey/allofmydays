@@ -1,66 +1,68 @@
 <template>
-    <div class="card">
-        <header>
-            <div class="card-header-title row">
-                <div class="col-md-3 col-sm-8 col-12">
-                    <span class="text-purple text-sm" @click="collapseClicked()" data-toggle="collapse" data-parent="#reportlist" :href="'#collapse-reports-'+index">
-                        {{ report.title }}
-                    </span>
-                </div>
-                <div class="col-md-3 col-sm-4 col-12 text-right">
-                    <span class="text text-sm">
-                        <a type="button" class="btn btn-tool text-success" data-toggle="tooltip" @click="showFlowchart(report)">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <a type="button" class="btn btn-tool text-warning" data-toggle="tooltip" @click="editReport(report)">
-                            <i class="fa fa-pencil-square-o"></i>
-                        </a>
-                        <a type="button" class="btn btn-tool" @click="collapseClicked()" data-toggle="collapse" data-parent="#reportlist" :href="'#collapse-reports-'+index">
-                            <i :class="currentCollapseIcon"></i>
-                        </a>
-                        <a type="button" class="btn btn-tool text-danger" @click="deleteReport(report.uuid, index)">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </span>
-                </div>
-            </div>
-            <!-- /.user-block -->
-        </header>
-        <!-- /.card-header -->
-        <div :id="'collapse-reports-'+index" class="card-content panel-collapse collapse in">
-
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="card card-default">
-                        <div class="card-body">
-                            <dt class="text text-xs">Type</dt>
-                            <dd class="text text-xs">{{ report.reporttype.name }}</dd>
-                            <dt class="text text-xs">Description</dt>
-                            <dd class="text text-xs">{{ report.description }}</dd>
-                            <dt class="text text-xs">Date Création</dt>
-                            <dd class="text text-xs">{{ report.created_at | formatDate}}</dd>
-                            <dd class="col-sm-8 offset-sm-4 text-xs"></dd>
-                        </div>
+    <div :id="'reportwrapper_' + report.uuid">
+        <div class="card">
+            <header>
+                <div class="card-header-title row">
+                    <div class="col-md-6 col-sm-8 col-12">
+                        <span class="text-purple text-sm" @click="collapseClicked()" data-toggle="collapse" :data-parent="'#reportwrapper_' + report.uuid" :href="'#collapse-reports-'+index">
+                            {{ report.title }}
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-4 col-12 text-right">
+                        <span class="text text-sm">
+                            <a type="button" class="btn btn-tool text-success" data-toggle="tooltip" @click="showFlowchart(report)">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a type="button" class="btn btn-tool text-warning" data-toggle="tooltip" @click="editReport(report)">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                            <a type="button" class="btn btn-tool" @click="collapseClicked()" data-toggle="collapse" :data-parent="'#reportwrapper_' + report.uuid" :href="'#collapse-reports-'+index">
+                                <i :class="currentCollapseIcon"></i>
+                            </a>
+                            <a type="button" class="btn btn-tool text-danger" @click="deleteReport(report.uuid, index)">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span>
                     </div>
                 </div>
-                <!-- /.col -->
-                <div class="col-md-9 col-sm-6 col-12">
+                <!-- /.user-block -->
+            </header>
+            <!-- /.card-header -->
+            <div :id="'collapse-reports-'+index" class="card-content panel-collapse collapse in">
 
-                    <ReportAttributes :report="report" :dynamicattributes_prop="report.attributes"></ReportAttributes>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <dt class="text text-xs">Name</dt>
+                                <dd class="text text-xs">{{ report.reporttype.name }}</dd>
+                                <dt class="text text-xs">Description</dt>
+                                <dd class="text text-xs">{{ report.description }}</dd>
+                                <dt class="text text-xs">Created at</dt>
+                                <dd class="text text-xs">{{ report.created_at | formatDate}}</dd>
+                                <dd class="col-sm-8 offset-sm-4 text-xs"></dd>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9 col-sm-6 col-12">
 
+                        <ReportAttributes :report_prop="report" :reportattributes_prop="report.attributes"></ReportAttributes>
+
+                    </div>
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
 
+            </div>
+            <!-- /.card-body -->
+            <AddUpdateReport></AddUpdateReport>
         </div>
-        <!-- /.card-body -->
-        <AddUpdateAttribute :report_prop="report"></AddUpdateAttribute>
     </div>
 </template>
 
 <script>
-    import ReportAttributes from "../dynamicattributes/list";
-    import AddUpdateAttribute from "../dynamicattributes/addupdate";
+    import ReportAttributes from "../reportattributes/list";
+    import AddUpdateReport from "./addupdate";
 
     import ReportBus from "./reportBus";
 
@@ -71,7 +73,8 @@
             index_prop: {}
         },
         components: {
-            ReportAttributes, AddUpdateAttribute
+            AddUpdateReport,
+            ReportAttributes
         },
         mounted() {
             ReportBus.$on('report_updated', (updreport) => {

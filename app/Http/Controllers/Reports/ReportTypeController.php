@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Reports;
 
-use App\Models\Report\ReportType;
+use App\Models\Reports\ReportType;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Report\ReportTypeResource;
 use App\Http\Requests\ReportType\StoreReportTypeRequest;
@@ -10,8 +10,12 @@ use App\Http\Requests\ReportType\UpdateReportTypeRequest;
 
 class ReportTypeController extends Controller
 {
-    public function fetch() {
+    public function fetchall() {
         return ReportTypeResource::collection(ReportType::all());
+    }
+
+    public function fetch() {
+
     }
 
     /**

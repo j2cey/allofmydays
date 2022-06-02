@@ -9,6 +9,8 @@ use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\SubjectRepository;
 use App\Repositories\Contracts\IUserRepositoryContract;
+use App\Repositories\Eloquent\ReportRepositoryContract;
+use App\Repositories\Contracts\IReportRepositoryContract;
 use App\Repositories\Contracts\ISubjectRepositoryContract;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(IUserRepositoryContract::class, UserRepository::class);
         $this->app->bind(ISubjectRepositoryContract::class, SubjectRepository::class);
+        $this->app->bind(IReportRepositoryContract::class, ReportRepositoryContract::class);
     }
 
     /**

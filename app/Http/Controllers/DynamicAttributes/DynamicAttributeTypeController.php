@@ -4,11 +4,27 @@ namespace App\Http\Controllers\DynamicAttributes;
 
 use App\Http\Controllers\Controller;
 use App\Models\DynamicAttributes\DynamicAttributeType;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Http\Resources\DynamicAttributes\DynamicAttributeTypeResource;
 use App\Http\Requests\DynamicAttributeType\StoreDynamicAttributeTypeRequest;
 use App\Http\Requests\DynamicAttributeType\UpdateDynamicAttributeTypeRequest;
 
 class DynamicAttributeTypeController extends Controller
 {
+    /**
+     * Fetch all values
+     * @return AnonymousResourceCollection
+     */
+    public function fetchall() {
+        return DynamicAttributeTypeResource::collection(DynamicAttributeType::all());
+    }
+
+
+    public function fetch()
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      *

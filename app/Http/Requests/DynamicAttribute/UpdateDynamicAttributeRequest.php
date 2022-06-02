@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\DynamicAttribute;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\DynamicAttributes\DynamicAttribute;
 
-class UpdateDynamicAttributeRequest extends FormRequest
+class UpdateDynamicAttributeRequest extends DynamicAttributeRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateDynamicAttributeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,17 @@ class UpdateDynamicAttributeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return DynamicAttribute::updateRules($this->dynamicattribute);
+    }
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'attributetype' => $this->setRelevantDynamicAttributeType($this->input('attributetype'), true),
+        ]);
     }
 }

@@ -38,6 +38,8 @@ class StatusResource extends JsonResource
             'tags' => $this->tags,
             'code' => $this->code,
             'name' => $this->name,
+
+            'created_at' => $this->created_at,
         ];
     }
 }

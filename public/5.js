@@ -46,7 +46,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     RoleDisplay: function RoleDisplay() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../roles/display */ "./resources/js/views/roles/display.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../roles/display */ "./resources/js/views/roles/display.vue"));
     }
   },
   mounted: function mounted() {

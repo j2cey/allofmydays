@@ -49,7 +49,6 @@ class DynamicAttribute extends BaseModel implements Auditable
     {
         return [
             'name' => ['required'],
-            'num_ord' => ['required'],
         ];
     }
 

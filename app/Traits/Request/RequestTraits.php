@@ -3,10 +3,11 @@
 
 namespace App\Traits\Request;
 
-
 use App\Models\User;
 use App\Models\Status;
 use Spatie\Permission\Models\Role;
+use App\Models\Reports\ReportType;
+use App\Models\DynamicAttributes\DynamicAttributeType;
 
 trait RequestTraits
 {
@@ -62,6 +63,26 @@ trait RequestTraits
             $value = $this->decodeJsonField($value);
         }
         return $value ? User::where('id', $value['id'])->first() : null;
+    }
+
+    public function setRelevantReportType($value, $json_decode_before = false) {
+        if (is_null($value)) {
+            return null;
+        }
+        if ($json_decode_before || is_string($value)) {
+            $value = $this->decodeJsonField($value);
+        }
+        return $value ? ReportType::where('id', $value['id'])->first() : null;
+    }
+
+    public function setRelevantDynamicAttributeType($value, $json_decode_before = false) {
+        if (is_null($value)) {
+            return null;
+        }
+        if ($json_decode_before || is_string($value)) {
+            $value = $this->decodeJsonField($value);
+        }
+        return $value ? DynamicAttributeType::where('id', $value['id'])->first() : null;
     }
 
     public function setRelevantStatus($value, $json_decode_before = false) {

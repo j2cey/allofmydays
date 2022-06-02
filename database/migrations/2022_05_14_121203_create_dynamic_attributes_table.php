@@ -33,8 +33,8 @@ class CreateDynamicAttributesTable extends Migration
             $table->bigInteger('hasdynamicattribute_id')->comment('referenced model id (object id)');
 
             $table->string('num_ord')->comment('number order');
-            $table->integer('offset')->nullable()->comment('offset if any');
-            $table->integer('max_length')->nullable()->comment('max length if any');
+            $table->integer('offset')->default(0)->comment('offset if any');
+            $table->integer('max_length')->default(0)->comment('max length if any');
 
             $table->baseFields();
         });

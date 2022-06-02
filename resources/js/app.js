@@ -146,6 +146,8 @@ Vue.component('search-form', require('./components/Search/SearchForm').default);
 Vue.component('search-results', require('./components/Search/SearchResults').default);
 
 Vue.component('report-index', require('./views/reports/index').default);
+Vue.component('report-addupdate', require('./views/reports/addupdate').default);
+Vue.component('reports-details', require('./views/reports/details').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
