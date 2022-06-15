@@ -6,6 +6,7 @@ use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Http\Resources\StatusResource;
 use App\Http\Requests\Status\UpdateStatusRequest;
+use App\Http\Requests\Status\ModelUpdateStatusRequest;
 
 class StatusController extends Controller
 {
@@ -99,5 +100,12 @@ class StatusController extends Controller
     public function destroy(Status $status)
     {
         //
+    }
+
+    public function modelupdate(ModelUpdateStatusRequest $request)
+    {
+        $request->model->status()->associate($request->status)->save();
+
+        return new StatusResource($request->status);
     }
 }

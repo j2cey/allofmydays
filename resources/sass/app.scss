@@ -95,6 +95,16 @@ $colors: mergeColorMaps(
                 $danger-light,
                 $danger-dark,
             ),
+            "orange": (
+                $orange,
+                $white,
+                $orange-light,
+            ),
+            "orange-light": (
+                $orange-light,
+                $white,
+                $orange,
+            ),
         ),
         $custom-colors
 );

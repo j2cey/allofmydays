@@ -1869,7 +1869,7 @@ Licensed under the MIT license.
             surface.render();
 
             // A draw implies that either the axes or data have changed, so we
-            // should probably update the overlay highlights as well.
+            // should probably update the overlay analysishighlights as well.
 
             triggerRedrawOverlay();
         }
@@ -2494,9 +2494,9 @@ Licensed under the MIT license.
                 radius = series.points.radius,
                 symbol = series.points.symbol;
 
-            // If the user sets the line width to 0, we change it to a very 
+            // If the user sets the line width to 0, we change it to a very
             // small value. A line width of 0 seems to force the default of 1.
-            // Doing the conditional here allows the shadow setting to still be 
+            // Doing the conditional here allows the shadow setting to still be
             // optional even with a lineWidth of 0.
 
             if( lw == 0 )
@@ -2932,7 +2932,7 @@ Licensed under the MIT license.
             }
 
             if (options.grid.autoHighlight) {
-                // clear auto-highlights
+                // clear auto-analysishighlights
                 for (var i = 0; i < highlights.length; ++i) {
                     var h = highlights[i];
                     if (h.auto == eventname &&
@@ -2963,7 +2963,7 @@ Licensed under the MIT license.
         function drawOverlay() {
             redrawTimeout = null;
 
-            // draw highlights
+            // draw analysishighlights
             octx.save();
             overlay.clear();
             octx.translate(plotOffset.left, plotOffset.top);

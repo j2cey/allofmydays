@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *
  * @property string $code
  * @property string $name
+ * @property string $style
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -38,6 +39,7 @@ class StatusResource extends JsonResource
             'tags' => $this->tags,
             'code' => $this->code,
             'name' => $this->name,
+            'style' => $this->style,
 
             'created_at' => $this->created_at,
         ];

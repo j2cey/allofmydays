@@ -34,7 +34,7 @@ class UpdateUserRequest extends UserRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'status' => $this->setRelevantStatus($this->input('status'), true),
+            'status' => $this->setRelevantStatus($this->input('status'), 'id', true),
             'roles' => $this->setRelevantIdsList($this->input('roles'), true),
         ]);
     }

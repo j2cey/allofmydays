@@ -29,6 +29,11 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
 
         $this->call(DynamicAttributeTypeSeeder::class);
+
+        $this->call(ThresholdTypeSeeder::class);
+        $this->call(AnalysisRuleTypeSeeder::class);
+        $this->call(AnalysisHighlightTypeSeeder::class);
+
         $this->call(ReportTypeSeeder::class);
     }
 }

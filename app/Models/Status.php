@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string $code
  * @property string $name
+ * @property string $style
  * @property string|null $description
  *
  * @property Carbon $created_at

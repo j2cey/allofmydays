@@ -7,6 +7,8 @@ use Illuminate\Support\Carbon;
 use App\Http\Resources\StatusResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\DynamicAttributes\DynamicAttribute;
+use App\Http\Resources\AnalysisRules\AnalysisRuleResource;
 
 /**
  * Class DynamicAttributeResource
@@ -57,6 +59,9 @@ class DynamicAttributeResource extends JsonResource
             'hasdynamicattribute_id' => $this->hasdynamicattribute_id,
 
             'attributetype' => DynamicAttributeTypeResource::make($this->attributetype),
+            'analysisrules' => AnalysisRuleResource::collection($this->analysisrules),
+
+            'model_type' => DynamicAttribute::class,
 
             'created_at' => $this->created_at,
 

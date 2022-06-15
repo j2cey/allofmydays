@@ -5,6 +5,7 @@ namespace App\Models\DynamicAttributes;
 use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\AnalysisRules\AnalysisRule;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -79,6 +80,11 @@ class DynamicAttribute extends BaseModel implements Auditable
 
     public function attributetype() {
         return $this->belongsTo(DynamicAttributeType::class,"dynamic_attribute_type_id");
+    }
+
+    public function analysisrules()
+    {
+        return $this->hasMany(AnalysisRule::class, 'dynamic_attribute_id');
     }
 
     /**

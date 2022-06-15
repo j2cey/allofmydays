@@ -20,7 +20,16 @@ use App\Http\Controllers\AppreciationController;
 use App\Http\Controllers\Reports\ReportController;
 use App\Http\Controllers\Reports\ReportTypeController;
 use App\Http\Controllers\Authorization\RoleController;
+use App\Http\Controllers\AnalysisRules\AnalysisRuleController;
+use App\Http\Controllers\AnalysisRules\ThresholdTypeController;
+use App\Http\Controllers\AnalysisRules\AnalysisRuleTypeController;
+use App\Http\Controllers\AnalysisRules\AnalysisHighlightController;
+use App\Http\Controllers\AnalysisRules\HighlightTextSizeController;
+use App\Http\Controllers\AnalysisRules\HighlightTextColorController;
+use App\Http\Controllers\AnalysisRules\HighlightTextWeightController;
 use App\Http\Controllers\DynamicAttributes\DynamicAttributeController;
+use App\Http\Controllers\AnalysisRules\AnalysisRuleThresholdController;
+use App\Http\Controllers\AnalysisRules\AnalysisHighlightTypeController;
 use App\Http\Controllers\DynamicAttributes\DynamicAttributeTypeController;
 
 /*
@@ -109,6 +118,9 @@ Route::get('statuses.fetch',[StatusController::class,'fetch'])
 Route::get('statuses.fetchone/{id}',[StatusController::class,'fetchone'])
     ->name('statuses.fetchone')
     ->middleware('auth');
+Route::match(['post'],'statuses.modelupdate',[StatusController::class, 'modelupdate'])
+    ->name('statuses.modelupdate')
+    ->middleware('auth');
 
 #region subjects
 
@@ -181,4 +193,79 @@ Route::get('dynamicattributetypes.fetch',[DynamicAttributeTypeController::class,
     ->middleware('auth');
 Route::get('dynamicattributetypes.fetchall',[DynamicAttributeTypeController::class,'fetchall'])
     ->name('dynamicattributetypes.fetchall')
+    ->middleware('auth');
+
+Route::resource('analysisruletypes',AnalysisRuleTypeController::class)->middleware('auth');
+Route::get('analysisruletypes.fetch',[AnalysisRuleTypeController::class,'fetch'])
+    ->name('analysisruletypes.fetch')
+    ->middleware('auth');
+Route::get('analysisruletypes.fetchall',[AnalysisRuleTypeController::class,'fetchall'])
+    ->name('analysisruletypes.fetchall')
+    ->middleware('auth');
+
+Route::resource('thresholdtypes',ThresholdTypeController::class)->middleware('auth');
+Route::get('thresholdtypes.fetch',[ThresholdTypeController::class,'fetch'])
+    ->name('thresholdtypes.fetch')
+    ->middleware('auth');
+Route::get('thresholdtypes.fetchall',[ThresholdTypeController::class,'fetchall'])
+    ->name('thresholdtypes.fetchall')
+    ->middleware('auth');
+
+Route::resource('analysisrules',AnalysisRuleController::class)->middleware('auth');
+Route::get('analysisrules.fetch',[AnalysisRuleController::class,'fetch'])
+    ->name('analysisrules.fetch')
+    ->middleware('auth');
+Route::get('analysisrules.fetchall',[AnalysisRuleController::class,'fetchall'])
+    ->name('analysisrules.fetchall')
+    ->middleware('auth');
+Route::get('analysisrules.fetchone/{id}',[AnalysisRuleController::class,'fetchone'])
+    ->name('analysisrules.fetchone')
+    ->middleware('auth');
+
+Route::resource('analysisrulethresholds',AnalysisRuleThresholdController::class)->middleware('auth');
+Route::get('analysisrulethresholds.fetch',[AnalysisRuleThresholdController::class,'fetch'])
+    ->name('analysisrulethresholds.fetch')
+    ->middleware('auth');
+Route::get('analysisrulethresholds.fetchall',[AnalysisRuleThresholdController::class,'fetchall'])
+    ->name('analysisrulethresholds.fetchall')
+    ->middleware('auth');
+
+Route::resource('analysishighlighttypes',AnalysisHighlightTypeController::class)->middleware('auth');
+Route::get('analysishighlighttypes.fetch',[AnalysisHighlightTypeController::class,'fetch'])
+    ->name('analysishighlighttypes.fetch')
+    ->middleware('auth');
+Route::get('analysishighlighttypes.fetchall',[AnalysisHighlightTypeController::class,'fetchall'])
+    ->name('analysishighlighttypes.fetchall')
+    ->middleware('auth');
+
+Route::resource('analysishighlights',AnalysisHighlightController::class)->middleware('auth');
+Route::get('analysishighlights.fetch',[AnalysisHighlightController::class,'fetch'])
+    ->name('analysishighlights.fetch')
+    ->middleware('auth');
+Route::get('analysishighlights.fetchall',[AnalysisHighlightController::class,'fetchall'])
+    ->name('analysishighlights.fetchall')
+    ->middleware('auth');
+
+Route::resource('highlighttextcolors',HighlightTextColorController::class)->middleware('auth');
+Route::get('highlighttextcolors.fetch',[HighlightTextColorController::class,'fetch'])
+    ->name('highlighttextcolors.fetch')
+    ->middleware('auth');
+Route::get('highlighttextcolors.fetchall',[HighlightTextColorController::class,'fetchall'])
+    ->name('highlighttextcolors.fetchall')
+    ->middleware('auth');
+
+Route::resource('highlighttextsizes',HighlightTextSizeController::class)->middleware('auth');
+Route::get('highlighttextsizes.fetch',[HighlightTextSizeController::class,'fetch'])
+    ->name('highlighttextsizes.fetch')
+    ->middleware('auth');
+Route::get('highlighttextsizes.fetchall',[HighlightTextSizeController::class,'fetchall'])
+    ->name('highlighttextsizes.fetchall')
+    ->middleware('auth');
+
+Route::resource('highlighttextweights',HighlightTextWeightController::class)->middleware('auth');
+Route::get('highlighttextweights.fetch',[HighlightTextWeightController::class,'fetch'])
+    ->name('highlighttextweights.fetch')
+    ->middleware('auth');
+Route::get('highlighttextweights.fetchall',[HighlightTextWeightController::class,'fetchall'])
+    ->name('highlighttextweights.fetchall')
     ->middleware('auth');

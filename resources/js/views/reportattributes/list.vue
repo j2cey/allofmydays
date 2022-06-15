@@ -129,14 +129,11 @@
                         <template #header>
                             <b-icon icon="source-pull"></b-icon>
                             <span class="help-inline pr-1 text-sm"> Analysis </span>
-                            <b-button size="is-small" type="is-ghost" @click="createAttribute(props.row)"><i class="fas fa-plus"></i></b-button>
+                            <b-button size="is-small" type="is-ghost" @click="createAnalysisRule(props.row)"><i class="fas fa-plus"></i></b-button>
                         </template>
 
-                        <div class="card card-default">
-                            <div class="card-body">
+                        <AnalysisRuleList :attributeid_prop="props.row.id" :analysisrules_prop="props.row.analysisrules"></AnalysisRuleList>
 
-                            </div>
-                        </div>
                     </b-tab-item>
                 </b-tabs>
 
@@ -149,13 +146,14 @@
         </b-table>
 
         <AddUpdateAttribute></AddUpdateAttribute>
+        <AddUpdateAnalysisRule></AddUpdateAnalysisRule>
     </section>
 
 </template>
 
 <script>
     import DynamicAttributeBus from "../dynamicattributes/attributeBus";
-    import DynamicattributeBus from "../dynamicattributes/attributeBus";
+    import AnalysisRuleBus from "../analysisrules/analysisruleBus";
 
     export default {
         props: {
@@ -164,7 +162,9 @@
         },
         name: "report-attributes-list",
         components: {
-            AddUpdateAttribute: () => import('../dynamicattributes/addupdate')
+            AddUpdateAttribute: () => import('../dynamicattributes/addupdate'),
+            AddUpdateAnalysisRule: () => import('../analysisrules/addupdate'),
+            AnalysisRuleList: () => import('../analysisrules/list'),
         },
         mounted() {
             DynamicAttributeBus.$on('dynamicattribute_created', (dynamicattribute) => {
@@ -176,6 +176,12 @@
             DynamicAttributeBus.$on('dynamicattribute_updated', (dynamicattribute) => {
                 if (this.report.model_type === dynamicattribute.hasdynamicattribute_type && this.report.id === dynamicattribute.hasdynamicattribute_id) {
                     this.updateAttributeFromList(dynamicattribute)
+                }
+            })
+
+            AnalysisRuleBus.$on('analysisrule_created', (attribute) => {
+                if (this.report.model_type === attribute.hasdynamicattribute_type && this.report.id === attribute.hasdynamicattribute_id) {
+                    this.updateAttributeFromList(attribute)
                 }
             })
         },
@@ -267,6 +273,10 @@
 
                     }
                 })
+            },
+            createAnalysisRule(attribute) {
+                console.log('create_new_analysisrule sent: ', attribute)
+                AnalysisRuleBus.$emit('create_new_analysisrule', { attribute })
             },
             searchTitre(row, input) {
                 console.log('Searching Name ...', row, input)

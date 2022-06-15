@@ -40,9 +40,9 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="dynamicattribute_description" class="col-sm-2 col-form-label text-xs">Description</label>
+                                <label for="description" class="col-sm-2 col-form-label text-xs">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control text-xs" id="dynamicattribute_description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="dynamicattributeForm.description">
+                                    <input @keyup.enter="formKeyEnter()" type="text" class="form-control text-xs" id="description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="dynamicattributeForm.description">
                                     <span class="invalid-feedback d-block text-xs" role="alert" v-if="dynamicattributeForm.errors.has('description')" v-text="dynamicattributeForm.errors.get('description')"></span>
                                 </div>
                             </div>
@@ -124,6 +124,13 @@
             }
         },
         methods: {
+            formKeyEnter() {
+                if (this.editing) {
+                    this.updateDynamicattribute()
+                } else {
+                    this.createDynamicattribute()
+                }
+            },
             createDynamicattribute() {
                 this.loading = true
 

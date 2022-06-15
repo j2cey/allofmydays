@@ -25,6 +25,7 @@ class UpdateDynamicAttributeRequest extends DynamicAttributeRequest
     {
         return DynamicAttribute::updateRules($this->dynamicattribute);
     }
+
     /**
      * Prepare the data for validation.
      *

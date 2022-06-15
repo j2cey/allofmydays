@@ -3,7 +3,6 @@
 
 namespace App\Traits\DynamicAttribute;
 
-
 use App\Models\DynamicAttributes\DynamicRow;
 
 trait HasDynamicRows

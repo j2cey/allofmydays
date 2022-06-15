@@ -42,7 +42,7 @@
                             <div class="form-group row">
                                 <label for="report_description" class="col-sm-2 col-form-label text-xs">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control text-xs" id="report_description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="reportForm.description">
+                                    <input @keyup.enter="formKeyEnter()" type="text" class="form-control text-xs" id="report_description" name="description" required autocomplete="description" autofocus placeholder="Description" v-model="reportForm.description">
                                     <span class="invalid-feedback d-block text-xs" role="alert" v-if="reportForm.errors.has('description')" v-text="reportForm.errors.get('description')"></span>
                                 </div>
                             </div>
@@ -120,6 +120,13 @@
             }
         },
         methods: {
+            formKeyEnter() {
+                if (this.editing) {
+                    this.updateReport()
+                } else {
+                    this.createReport()
+                }
+            },
             createReport() {
                 this.loading = true
 

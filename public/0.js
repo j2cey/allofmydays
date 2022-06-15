@@ -10,8 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dynamicattributes_attributeBus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dynamicattributes/attributeBus */ "./resources/js/views/dynamicattributes/attributeBus.js");
-//
-//
+/* harmony import */ var _analysisrules_analysisruleBus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../analysisrules/analysisruleBus */ "./resources/js/views/analysisrules/analysisruleBus.js");
 //
 //
 //
@@ -175,7 +174,13 @@ __webpack_require__.r(__webpack_exports__);
   name: "report-attributes-list",
   components: {
     AddUpdateAttribute: function AddUpdateAttribute() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../dynamicattributes/addupdate */ "./resources/js/views/dynamicattributes/addupdate.vue"));
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ../dynamicattributes/addupdate */ "./resources/js/views/dynamicattributes/addupdate.vue"));
+    },
+    AddUpdateAnalysisRule: function AddUpdateAnalysisRule() {
+      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ../analysisrules/addupdate */ "./resources/js/views/analysisrules/addupdate.vue"));
+    },
+    AnalysisRuleList: function AnalysisRuleList() {
+      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ../analysisrules/list */ "./resources/js/views/analysisrules/list.vue"));
     }
   },
   mounted: function mounted() {
@@ -189,6 +194,11 @@ __webpack_require__.r(__webpack_exports__);
     _dynamicattributes_attributeBus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('dynamicattribute_updated', function (dynamicattribute) {
       if (_this.report.model_type === dynamicattribute.hasdynamicattribute_type && _this.report.id === dynamicattribute.hasdynamicattribute_id) {
         _this.updateAttributeFromList(dynamicattribute);
+      }
+    });
+    _analysisrules_analysisruleBus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('analysisrule_created', function (attribute) {
+      if (_this.report.model_type === attribute.hasdynamicattribute_type && _this.report.id === attribute.hasdynamicattribute_id) {
+        _this.updateAttributeFromList(attribute);
       }
     });
   },
@@ -278,6 +288,12 @@ __webpack_require__.r(__webpack_exports__);
             window.handleErrors(error);
           });
         }
+      });
+    },
+    createAnalysisRule: function createAnalysisRule(attribute) {
+      console.log('create_new_analysisrule sent: ', attribute);
+      _analysisrules_analysisruleBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('create_new_analysisrule', {
+        attribute: attribute
       });
     },
     searchTitre: function searchTitre(row, input) {
@@ -824,7 +840,7 @@ var render = function () {
                                         },
                                         on: {
                                           click: function ($event) {
-                                            return _vm.createAttribute(
+                                            return _vm.createAnalysisRule(
                                               props.row
                                             )
                                           },
@@ -843,10 +859,14 @@ var render = function () {
                         },
                         [
                           _vm._v(" "),
-                          _c("div", { staticClass: "card card-default" }, [
-                            _c("div", { staticClass: "card-body" }),
-                          ]),
-                        ]
+                          _c("AnalysisRuleList", {
+                            attrs: {
+                              attributeid_prop: props.row.id,
+                              analysisrules_prop: props.row.analysisrules,
+                            },
+                          }),
+                        ],
+                        1
                       ),
                     ],
                     1
@@ -1072,6 +1092,8 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("AddUpdateAttribute"),
+      _vm._v(" "),
+      _c("AddUpdateAnalysisRule"),
     ],
     1
   )
@@ -1265,6 +1287,22 @@ var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./resources/js/views/analysisrules/analysisruleBus.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/views/analysisrules/analysisruleBus.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (new vue__WEBPACK_IMPORTED_MODULE_0___default.a());
 
 /***/ }),
 

@@ -5,7 +5,7 @@ namespace App\Traits\Base;
 
 trait BaseTrait
 {
-    use Uuidable, StatusTrait;
+    use Uuidable, StatusTrait, HasDefault;
 
     public static function bootBaseTrait()
     {

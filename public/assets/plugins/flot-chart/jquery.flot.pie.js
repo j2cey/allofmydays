@@ -660,7 +660,7 @@ More detail and specific examples can be found in the included HTML file.
 
 			if (options.grid.autoHighlight) {
 
-				// clear auto-highlights
+				// clear auto-analysishighlights
 
 				for (var i = 0; i < highlights.length; ++i) {
 					var h = highlights[i];
