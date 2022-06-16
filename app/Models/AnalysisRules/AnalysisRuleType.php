@@ -5,6 +5,7 @@ namespace App\Models\AnalysisRules;
 use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Contracts\AnalysisRules\IInnerRule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer|null $status_id
  *
  * @property string $name
- * @property string $model_type
+ * @property string|IInnerRule $model_type
  * @property string $view_name
  * @property string $description
  *

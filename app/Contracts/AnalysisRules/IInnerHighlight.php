@@ -5,7 +5,6 @@ namespace App\Contracts\AnalysisRules;
 
 use OwenIt\Auditing\Contracts\Auditable;
 use App\Models\AnalysisRules\AnalysisHighlight;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 interface IInnerHighlight extends Auditable
 {

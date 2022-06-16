@@ -226,6 +226,13 @@
                         sortable: true,
                     },
                     {
+                        field: 'attributetype',
+                        key: 'attributetype',
+                        label: 'Type',
+                        searchable: false,
+                        sortable: true,
+                    },
+                    {
                         field: 'description',
                         key: 'description',
                         label: 'Description',

@@ -5,6 +5,7 @@ namespace App\Models\AnalysisRules;
 use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Contracts\AnalysisRules\IInnerRule;
 use App\Models\DynamicAttributes\DynamicAttribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -125,6 +126,34 @@ class AnalysisRule extends BaseModel implements Auditable
 
     #region Custom Functions
 
+    public static function createInnerRule(AnalysisRuleType $ruletype) : IInnerRule {
+        return $ruletype->model_type::createNew();
+    }
+
+    private function syncInnerRule(AnalysisRuleType $ruletype, IInnerRule $innerrule) : IInnerRule {
+
+        if ( $this->highlighttype->id !== $ruletype->id ) {
+            // remove the old innerrule
+            $this->removeInnerRule();
+
+            // and we have to create a new one from new type
+            $innerrule = $this->createInnerRule($ruletype);
+
+            $innerrule->attachUpperRule($this);
+            $this->analysisruletype()->associate($ruletype);
+
+            $this->save();
+        }
+
+        return $innerrule;
+    }
+
+    public function removeHighlights() {
+        $this->highlights()->each(function($highlight) {
+            $highlight->delete();
+        });
+    }
+
     public function removeInnerRule()
     {
         $this->innerrule->delete();
@@ -132,7 +161,7 @@ class AnalysisRule extends BaseModel implements Auditable
 
     public static function createNew(DynamicAttribute $dynamicattribute, AnalysisRuleType $ruletype, $title, $alert_when_allowed, $alert_when_broken, $description): AnalysisRule {
 
-        $innerrule = $ruletype->model_type::createNew();
+        $innerrule = self::createInnerRule($ruletype);
 
         $analysisrule = $innerrule->analysisrule()->create([
             'title' => $title,
@@ -151,7 +180,7 @@ class AnalysisRule extends BaseModel implements Auditable
 
     public function updateOne(AnalysisRuleType $ruletype, $title, $alert_when_allowed, $alert_when_broken, $description): AnalysisRule {
 
-        $innerrule = $ruletype->model_type::createNew();
+        $this->syncInnerRule($ruletype, $this->innerrule);
 
         $this->update([
             'title' => $title,
@@ -159,8 +188,6 @@ class AnalysisRule extends BaseModel implements Auditable
             'alert_when_broken' => $alert_when_broken,
             'description' => $description,
         ]);
-
-        $this->analysisruletype()->associate($ruletype);
 
         $this->save();
 
@@ -178,6 +205,7 @@ class AnalysisRule extends BaseModel implements Auditable
 
         static::deleting(function ($model) {
             $model->removeInnerRule();
+            $model->removeHighlights();
         });
     }
 }

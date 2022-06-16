@@ -4,8 +4,8 @@ namespace App\Models\AnalysisRules;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Carbon;
-use OwenIt\Auditing\Contracts\Auditable;
 use App\Traits\AnalysisRules\IsInnerRule;
+use App\Contracts\AnalysisRules\IInnerRule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -27,9 +27,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class AnalysisRuleThreshold extends BaseModel  implements Auditable
+class AnalysisRuleThreshold extends BaseModel  implements IInnerRule
 {
-    use IsInnerRule, HasFactory, \OwenIt\Auditing\Auditable;
+    use IsInnerRule, HasFactory;
 
     protected $guarded = [];
     protected $with = ['thresholdtype','status'];
@@ -38,7 +38,7 @@ class AnalysisRuleThreshold extends BaseModel  implements Auditable
 
     public static function defaultRules() {
         return [
-            'threshold' => ['required'],
+            'threshold' => ['required','numeric'],
         ];
     }
     public static function createRules() {
@@ -77,8 +77,6 @@ class AnalysisRuleThreshold extends BaseModel  implements Auditable
         $innerrule = AnalysisRuleThreshold::create();
 
         $innerrule->thresholdtype()->associate($default_treshold_type)->save();
-
-        //$innerrule->attachRule($upperrule);
 
         return $innerrule;
     }

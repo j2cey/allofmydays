@@ -7,8 +7,7 @@ use App\Models\AnalysisRules\AnalysisRule;
 
 trait IsInnerRule
 {
-    abstract public function ruleFollowed($input) : bool;
-    abstract public function ruleBroken($input) : bool;
+    use \OwenIt\Auditing\Auditable;
 
     #region Eloquent Relationships
 
@@ -20,7 +19,7 @@ trait IsInnerRule
 
     #region Custom Methods
 
-    public function attachRule(AnalysisRule $upperrule) {
+    public function attachUpperRule(AnalysisRule $upperrule) {
         $this->analysisrule()->save($upperrule);
     }
 
