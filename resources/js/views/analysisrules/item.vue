@@ -133,6 +133,13 @@
                     this.reloadHighlights(highlight)
                 }
             })
+
+            this.$on('highlight_deleted', (highlight) => {
+                console.log('highlight_deleted received on rule: ', this.analysisrule, highlight)
+                if (this.analysisrule.id === highlight.analysis_rule_id) {
+                    this.reloadHighlights(highlight)
+                }
+            })
         },
         data() {
             return {

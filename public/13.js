@@ -81,6 +81,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "highlights-list",
@@ -180,6 +183,33 @@ __webpack_require__.r(__webpack_exports__);
       if (highlightIndex > -1) {
         this.highlights.splice(highlightIndex, 1, highlight);
       }
+    },
+    deleteHighlit: function deleteHighlit(highlight) {
+      var _this2 = this;
+
+      this.$swal({
+        title: '<small>Are you sure ?</small>',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]("/analysishighlights/".concat(highlight.uuid)).then(function (resp) {
+            _this2.$swal({
+              html: '<small>Highlight successfully deleted !</small>',
+              icon: 'success',
+              timer: 3000
+            }).then(function () {
+              _this2.$parent.$emit('highlight_deleted', highlight);
+            });
+          })["catch"](function (error) {
+            window.handleErrors(error);
+          });
+        }
+      });
     }
   },
   computed: {
@@ -352,14 +382,25 @@ var render = function () {
                       ),
                       _vm._v(" "),
                       _c("td", [
-                        _c("span", {
-                          staticClass: "fa fa-pencil-square-o text-warning",
-                          on: {
-                            click: function ($event) {
-                              return _vm.editHighlit(highlight)
+                        _c("div", { staticClass: "block" }, [
+                          _c("span", {
+                            staticClass: "fa fa-pencil-square-o text-warning",
+                            on: {
+                              click: function ($event) {
+                                return _vm.editHighlit(highlight)
+                              },
                             },
-                          },
-                        }),
+                          }),
+                          _vm._v(" "),
+                          _c("span", {
+                            staticClass: "fa fa-trash text-danger",
+                            on: {
+                              click: function ($event) {
+                                return _vm.deleteHighlit(highlight)
+                              },
+                            },
+                          }),
+                        ]),
                       ]),
                     ])
                   : _vm._e()

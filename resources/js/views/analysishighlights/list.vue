@@ -51,7 +51,10 @@
                             <component :ref="highlight.innerhighlight.id" :is="highlight.highlighttype.view_name" :model_type_prop="highlight.innerhighlight_type" :innerhighlight_prop="highlight.innerhighlight"></component>
                         </td>
                         <td>
-                            <span class="fa fa-pencil-square-o text-warning" @click="editHighlit(highlight)"></span>
+                            <div class="block">
+                                <span class="fa fa-pencil-square-o text-warning" @click="editHighlit(highlight)"></span>
+                                <span class="fa fa-trash text-danger" @click="deleteHighlit(highlight)"></span>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -159,6 +162,34 @@
                 if (highlightIndex > -1) {
                     this.highlights.splice(highlightIndex, 1, highlight)
                 }
+            },
+            deleteHighlit(highlight) {
+                this.$swal({
+                    title: '<small>Are you sure ?</small>',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if(result.value) {
+
+                        axios.delete(`/analysishighlights/${highlight.uuid}`)
+                            .then(resp => {
+                                this.$swal({
+                                    html: '<small>Highlight successfully deleted !</small>',
+                                    icon: 'success',
+                                    timer: 3000
+                                }).then(() => {
+                                    this.$parent.$emit('highlight_deleted', highlight)
+                                })
+                            }).catch(error => {
+                            window.handleErrors(error)
+                        })
+
+                    }
+                })
             }
         },
         computed: {

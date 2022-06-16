@@ -154,6 +154,13 @@ __webpack_require__.r(__webpack_exports__);
         _this.reloadHighlights(highlight);
       }
     });
+    this.$on('highlight_deleted', function (highlight) {
+      console.log('highlight_deleted received on rule: ', _this.analysisrule, highlight);
+
+      if (_this.analysisrule.id === highlight.analysis_rule_id) {
+        _this.reloadHighlights(highlight);
+      }
+    });
   },
   data: function data() {
     return {

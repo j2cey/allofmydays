@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AnalysisRules;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\AnalysisRules\AnalysisHighlight;
 use App\Http\Resources\AnalysisRules\AnalysisHighlightResource;
@@ -99,10 +100,12 @@ class AnalysisHighlightController extends Controller
      * Remove the specified resource from storage.
      *
      * @param AnalysisHighlight $analysishighlight
-     * @return void
+     * @return JsonResponse|void
      */
     public function destroy(AnalysisHighlight $analysishighlight)
     {
-        //
+        $analysishighlight->delete();
+
+        return response()->json(['status' => 'ok'], 200);
     }
 }
