@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AnalysisRules;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\AnalysisRules\AnalysisRule;
 use App\Http\Resources\AnalysisRules\AnalysisRuleResource;
@@ -81,21 +82,31 @@ class AnalysisRuleController extends Controller
      *
      * @param UpdateAnalysisRuleRequest $request
      * @param AnalysisRule $analysisrule
-     * @return void
+     * @return AnalysisRuleResource|void
      */
     public function update(UpdateAnalysisRuleRequest $request, AnalysisRule $analysisrule)
     {
-        //
+        $analysisrule->updateOne(
+            $request->analysisruletype,
+            $request->title,
+            $request->alert_when_allowed,
+            $request->alert_when_broken,
+            $request->description
+        );
+
+        return new AnalysisRuleResource($analysisrule);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param AnalysisRule $analysisrule
-     * @return void
+     * @return JsonResponse|void
      */
     public function destroy(AnalysisRule $analysisrule)
     {
-        //
+        $analysisrule->delete();
+
+        return response()->json(['status' => 'ok'], 200);
     }
 }

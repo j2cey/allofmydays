@@ -27,13 +27,13 @@ window.noty = function(notification) {
 window.handleErrors = function(error) {
     if(error.response.status === 422) {
         window.noty({
-            message: 'Vous avez des erreurs de validation. Veuillez réessayer.',
+            message: 'You have validation errors. Try Again.',
             type: 'danger'
         })
     }
 
     window.noty({
-        message: 'Quelque chose a mal tourné. Veuillez rafraîchir la page.',
+        message: 'Something went wrong. Please refresh the page.',
         type: 'danger'
     })
 }

@@ -125,6 +125,11 @@ class AnalysisRule extends BaseModel implements Auditable
 
     #region Custom Functions
 
+    public function removeInnerRule()
+    {
+        $this->innerrule->delete();
+    }
+
     public static function createNew(DynamicAttribute $dynamicattribute, AnalysisRuleType $ruletype, $title, $alert_when_allowed, $alert_when_broken, $description): AnalysisRule {
 
         $innerrule = $ruletype->model_type::createNew();
@@ -144,9 +149,35 @@ class AnalysisRule extends BaseModel implements Auditable
         return $analysisrule;
     }
 
+    public function updateOne(AnalysisRuleType $ruletype, $title, $alert_when_allowed, $alert_when_broken, $description): AnalysisRule {
+
+        $innerrule = $ruletype->model_type::createNew();
+
+        $this->update([
+            'title' => $title,
+            'alert_when_allowed' => $alert_when_allowed,
+            'alert_when_broken' => $alert_when_broken,
+            'description' => $description,
+        ]);
+
+        $this->analysisruletype()->associate($ruletype);
+
+        $this->save();
+
+        return $this;
+    }
+
     // Analysis Rule broken
 
     // Analysis Rule followed
 
     #endregion
+
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->removeInnerRule();
+        });
+    }
 }

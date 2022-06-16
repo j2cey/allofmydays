@@ -99,6 +99,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -124,9 +126,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('analysisrule_updated', function (upd_data) {
-      if (_this.analysisrule.id === upd_data.rule.id) {
-        _this.updateRule(upd_data.rule);
+    _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('analysisrule_updated', function (analysisrule) {
+      if (_this.analysisrule.id === analysisrule.id) {
+        _this.updateRule(analysisrule);
       }
     });
     this.$on('analysisrule_updated', function (upd_data) {
@@ -188,44 +190,40 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editRule: function editRule(analysisrule) {
-      axios.get("/analysisrules.fetchbystep/".concat(analysisrule.workflow_step_id)).then(function (resp) {
-        _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('analysisrule_edit', analysisrule, resp.data);
+      _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('edit_analysisrule', {
+        analysisrule: analysisrule
       });
     },
     updateRule: function updateRule(analysisrule) {
       this.analysisrule = analysisrule;
     },
-    deleteRule: function deleteRule(id, key) {
+    deleteRule: function deleteRule(analysisrule, index) {
       var _this2 = this;
 
       this.$swal({
-        html: '<small>Voulez-vous vraiment supprimer cette Rule ?</small>',
+        title: '<small>Are you sure ?</small>',
+        text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Oui',
-        cancelButtonText: 'Non'
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          axios["delete"]("/analysisrules/".concat(id)).then(function (resp) {
-            var rule = resp.data.rule;
-            var step = resp.data.step;
-            console.log('analysisrules delete resp: ', resp);
-
+          axios["delete"]("/analysisrules/".concat(analysisrule.uuid)).then(function (resp) {
             _this2.$swal({
-              html: '<small>Rule supprimée avec succès !</small>',
+              html: '<small>Aanalysis Rule successfully deleted !</small>',
               icon: 'success',
               timer: 3000
             }).then(function () {
-              _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('analysisrule_deleted', {
-                key: key,
-                rule: rule,
-                step: step
+              _this2.$parent.$emit('analysisrule_deleted', {
+                analysisrule: analysisrule,
+                index: index
               });
             });
           })["catch"](function (error) {
             window.handleErrors(error);
           });
-        } else {// stay here
         }
       });
     },
@@ -376,7 +374,7 @@ var render = function () {
                   attrs: { type: "button" },
                   on: {
                     click: function ($event) {
-                      return _vm.deleteRule(_vm.analysisrule.uuid, _vm.index)
+                      return _vm.deleteRule(_vm.analysisrule, _vm.index)
                     },
                   },
                 },
@@ -394,236 +392,243 @@ var render = function () {
           attrs: { id: "collapse-rules-" + _vm.index },
         },
         [
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label text-xs",
-                attrs: { for: "rule_type" },
-              },
-              [_vm._v("Rule Type")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.analysisrule.analysisruletype.name,
-                    expression: "analysisrule.analysisruletype.name",
-                  },
-                ],
-                staticClass: "form-control form-control-sm border-0",
-                staticStyle: { "background-color": "white" },
-                attrs: {
-                  readonly: "",
-                  type: "text",
-                  id: "rule_type",
-                  name: "type",
-                  placeholder: "Type",
+          _c("form", { attrs: { role: "form" } }, [
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-2 col-form-label text-xs",
+                  attrs: { for: "rule_type" },
                 },
-                domProps: { value: _vm.analysisrule.analysisruletype.name },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.analysisrule.analysisruletype,
-                      "name",
-                      $event.target.value
-                    )
-                  },
-                },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6",
-              },
-              [
+                [_vm._v("Rule Type")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-10" }, [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.analysisrule.alert_when_allowed,
-                      expression: "analysisrule.alert_when_allowed",
+                      value: _vm.analysisrule.analysisruletype.name,
+                      expression: "analysisrule.analysisruletype.name",
                     },
                   ],
-                  staticClass: "custom-control-input",
-                  attrs: {
-                    type: "checkbox",
-                    id: "alert_when_allowed" + _vm.analysisrule.id,
-                    name: "alert_when_allowed",
-                    placeholder: "Alert when allowed",
-                  },
-                  domProps: {
-                    checked: Array.isArray(_vm.analysisrule.alert_when_allowed)
-                      ? _vm._i(_vm.analysisrule.alert_when_allowed, null) > -1
-                      : _vm.analysisrule.alert_when_allowed,
-                  },
-                  on: {
-                    change: function ($event) {
-                      var $$a = _vm.analysisrule.alert_when_allowed,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.analysisrule,
-                              "alert_when_allowed",
-                              $$a.concat([$$v])
-                            )
-                        } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.analysisrule,
-                              "alert_when_allowed",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
-                        }
-                      } else {
-                        _vm.$set(_vm.analysisrule, "alert_when_allowed", $$c)
-                      }
-                    },
-                  },
-                }),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "custom-control-label",
-                    attrs: { for: "alert_when_allowed" + _vm.analysisrule.id },
-                  },
-                  [_vm._m(0)]
-                ),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6",
-              },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.analysisrule.alert_when_broken,
-                      expression: "analysisrule.alert_when_broken",
-                    },
-                  ],
-                  staticClass: "custom-control-input",
+                  staticClass: "form-control form-control-sm border-0",
+                  staticStyle: { "background-color": "white" },
                   attrs: {
                     readonly: "",
-                    type: "checkbox",
-                    id: "alert_when_broken" + _vm.analysisrule.id,
-                    name: "alert_when_broken",
-                    placeholder: "Alert when allowed",
+                    type: "text",
+                    id: "rule_type",
+                    name: "type",
+                    placeholder: "Type",
                   },
-                  domProps: {
-                    checked: Array.isArray(_vm.analysisrule.alert_when_broken)
-                      ? _vm._i(_vm.analysisrule.alert_when_broken, null) > -1
-                      : _vm.analysisrule.alert_when_broken,
-                  },
+                  domProps: { value: _vm.analysisrule.analysisruletype.name },
                   on: {
-                    change: function ($event) {
-                      var $$a = _vm.analysisrule.alert_when_broken,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.analysisrule,
-                              "alert_when_broken",
-                              $$a.concat([$$v])
-                            )
-                        } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.analysisrule,
-                              "alert_when_broken",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
-                        }
-                      } else {
-                        _vm.$set(_vm.analysisrule, "alert_when_broken", $$c)
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
                       }
+                      _vm.$set(
+                        _vm.analysisrule.analysisruletype,
+                        "name",
+                        $event.target.value
+                      )
                     },
                   },
                 }),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "custom-control-label",
-                    attrs: { for: "alert_when_broken" + _vm.analysisrule.id },
-                  },
-                  [_vm._m(1)]
-                ),
-              ]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label text-xs",
-                attrs: { for: "description" },
-              },
-              [_vm._v("Description")]
-            ),
+              ]),
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.analysisrule.description,
-                    expression: "analysisrule.description",
-                  },
-                ],
-                staticClass: "form-control form-control-sm border-0",
-                staticStyle: { "background-color": "white" },
-                attrs: {
-                  readonly: "",
-                  type: "text",
-                  id: "description",
-                  name: "description",
-                  placeholder: "Type",
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6",
                 },
-                domProps: { value: _vm.analysisrule.description },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.analysisrule,
-                      "description",
-                      $event.target.value
-                    )
-                  },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.analysisrule.alert_when_allowed,
+                        expression: "analysisrule.alert_when_allowed",
+                      },
+                    ],
+                    staticClass: "custom-control-input",
+                    attrs: {
+                      disabled: "",
+                      type: "checkbox",
+                      id: "alert_when_allowed" + _vm.analysisrule.id,
+                      name: "alert_when_allowed",
+                      placeholder: "Alert when allowed",
+                    },
+                    domProps: {
+                      checked: Array.isArray(
+                        _vm.analysisrule.alert_when_allowed
+                      )
+                        ? _vm._i(_vm.analysisrule.alert_when_allowed, null) > -1
+                        : _vm.analysisrule.alert_when_allowed,
+                    },
+                    on: {
+                      change: function ($event) {
+                        var $$a = _vm.analysisrule.alert_when_allowed,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.analysisrule,
+                                "alert_when_allowed",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.analysisrule,
+                                "alert_when_allowed",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.analysisrule, "alert_when_allowed", $$c)
+                        }
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "custom-control-label",
+                      attrs: {
+                        for: "alert_when_allowed" + _vm.analysisrule.id,
+                      },
+                    },
+                    [_vm._m(0)]
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6",
                 },
-              }),
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.analysisrule.alert_when_broken,
+                        expression: "analysisrule.alert_when_broken",
+                      },
+                    ],
+                    staticClass: "custom-control-input",
+                    attrs: {
+                      disabled: "",
+                      type: "checkbox",
+                      id: "alert_when_broken" + _vm.analysisrule.id,
+                      name: "alert_when_broken",
+                      placeholder: "Alert when allowed",
+                    },
+                    domProps: {
+                      checked: Array.isArray(_vm.analysisrule.alert_when_broken)
+                        ? _vm._i(_vm.analysisrule.alert_when_broken, null) > -1
+                        : _vm.analysisrule.alert_when_broken,
+                    },
+                    on: {
+                      change: function ($event) {
+                        var $$a = _vm.analysisrule.alert_when_broken,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.analysisrule,
+                                "alert_when_broken",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.analysisrule,
+                                "alert_when_broken",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.analysisrule, "alert_when_broken", $$c)
+                        }
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "custom-control-label",
+                      attrs: { for: "alert_when_broken" + _vm.analysisrule.id },
+                    },
+                    [_vm._m(1)]
+                  ),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-2 col-form-label text-xs",
+                  attrs: { for: "description" },
+                },
+                [_vm._v("Description")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-10" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.analysisrule.description,
+                      expression: "analysisrule.description",
+                    },
+                  ],
+                  staticClass: "form-control form-control-sm border-0",
+                  staticStyle: { "background-color": "white" },
+                  attrs: {
+                    readonly: "",
+                    type: "text",
+                    id: "description",
+                    name: "description",
+                    placeholder: "Type",
+                  },
+                  domProps: { value: _vm.analysisrule.description },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.analysisrule,
+                        "description",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+              ]),
             ]),
           ]),
           _vm._v(" "),

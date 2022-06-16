@@ -120,6 +120,7 @@ var InnerRule = /*#__PURE__*/_createClass(function InnerRule(innerrule) {
 
       this.loading = true;
       var fd = undefined;
+      this.innerruleForm = new Form(this.innerrule);
       this.innerruleForm.put("/analysisrulethresholds/".concat(this.innerrule.uuid), fd).then(function (innerrule) {
         _this2.loading = false; //$('#addUpdateWorkflowstep').modal('hide')
 
@@ -132,7 +133,7 @@ var InnerRule = /*#__PURE__*/_createClass(function InnerRule(innerrule) {
         });
       })["catch"](function (error) {
         _this2.loading = false;
-      })["finally"](this.innerruleForm = new Form(this.innerrule));
+      })["finally"]();
     },
     collapseInnerruleClicked: function collapseInnerruleClicked() {
       if (this.innerrule_collapse_icon === 'fas fa-chevron-down') {
@@ -148,6 +149,9 @@ var InnerRule = /*#__PURE__*/_createClass(function InnerRule(innerrule) {
     },
     currentInnerruleCollapseIcon: function currentInnerruleCollapseIcon() {
       return this.innerrule_collapse_icon;
+    },
+    getInnerruleForm: function getInnerruleForm() {
+      return this.innerruleForm;
     }
   }
 });
@@ -275,11 +279,11 @@ var render = function () {
                           _c("b-input", {
                             attrs: { name: "threshold", size: "is-small" },
                             model: {
-                              value: _vm.innerruleForm.threshold,
+                              value: _vm.innerrule.threshold,
                               callback: function ($$v) {
-                                _vm.$set(_vm.innerruleForm, "threshold", $$v)
+                                _vm.$set(_vm.innerrule, "threshold", $$v)
                               },
-                              expression: "innerruleForm.threshold",
+                              expression: "innerrule.threshold",
                             },
                           }),
                         ],
@@ -310,15 +314,11 @@ var render = function () {
                             },
                           },
                           model: {
-                            value: _vm.innerruleForm.thresholdtype.code,
+                            value: _vm.innerrule.thresholdtype.code,
                             callback: function ($$v) {
-                              _vm.$set(
-                                _vm.innerruleForm.thresholdtype,
-                                "code",
-                                $$v
-                              )
+                              _vm.$set(_vm.innerrule.thresholdtype, "code", $$v)
                             },
-                            expression: "innerruleForm.thresholdtype.code",
+                            expression: "innerrule.thresholdtype.code",
                           },
                         },
                         [
@@ -352,11 +352,11 @@ var render = function () {
                       _c("b-input", {
                         attrs: { name: "comment", size: "is-small" },
                         model: {
-                          value: _vm.innerruleForm.comment,
+                          value: _vm.innerrule.comment,
                           callback: function ($$v) {
-                            _vm.$set(_vm.innerruleForm, "comment", $$v)
+                            _vm.$set(_vm.innerrule, "comment", $$v)
                           },
-                          expression: "innerruleForm.comment",
+                          expression: "innerrule.comment",
                         },
                       }),
                     ],

@@ -25,12 +25,12 @@
                             <b-field label="Threshold" label-position="on-border" custom-class="is-small"
                                      :type="innerruleForm.errors.has('threshold') ? 'is-danger' : ''"
                                      :message="innerruleForm.errors.get('threshold')">
-                                <b-input name="threshold" size="is-small" v-model="innerruleForm.threshold"></b-input>
+                                <b-input name="threshold" size="is-small" v-model="innerrule.threshold"></b-input>
                             </b-field>
                         </b-field>
                         <br>
                         <b-field grouped group-multiline>
-                            <b-radio v-for="(thresholdtype, index) in thresholdtypes" :key="thresholdtype.id" size="is-small" v-model="innerruleForm.thresholdtype.code"
+                            <b-radio v-for="(thresholdtype, index) in thresholdtypes" :key="thresholdtype.id" size="is-small" v-model="innerrule.thresholdtype.code"
                                      name="thresholdtype"
                                      :native-value="thresholdtype.code" @input="testRadioClicked()">
                                 {{ thresholdtype.label }}
@@ -41,7 +41,7 @@
                                  :type="innerruleForm.errors.has('comment') ? 'is-danger' : ''"
                                  :message="innerruleForm.errors.get('comment')">
                             <b-input name="comment"
-                                     size="is-small" v-model="innerruleForm.comment"></b-input>
+                                     size="is-small" v-model="innerrule.comment"></b-input>
                         </b-field>
                         <hr>
                         <b-field grouped group-multiline>
@@ -101,6 +101,8 @@
                 this.loading = true
                 const fd = undefined;
 
+                this.innerruleForm = new Form( this.innerrule )
+
                 this.innerruleForm
                     .put(`/analysisrulethresholds/${this.innerrule.uuid}`, fd)
                     .then(innerrule => {
@@ -116,9 +118,8 @@
                     }).catch(error => {
                     this.loading = false
                 }).finally(
-                    this.innerruleForm = new Form( this.innerrule )
-                );
 
+                );
             },
             collapseInnerruleClicked() {
                 if (this.innerrule_collapse_icon === 'fas fa-chevron-down') {
@@ -134,6 +135,9 @@
             },
             currentInnerruleCollapseIcon() {
                 return this.innerrule_collapse_icon;
+            },
+            getInnerruleForm() {
+                return this.innerruleForm;
             }
         }
     }

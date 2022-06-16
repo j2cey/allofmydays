@@ -26,8 +26,11 @@
                     this.addRuleToList(analysisrule)
                 }
             })
-            RuleBus.$on('analysisrule_deleted', (add_data) => {
-                this.analysisrules.splice(add_data.key, 1)
+
+            this.$on('analysisrule_deleted', ({ analysisrule, index }) => {
+                if (this.attributeId === analysisrule.dynamic_attribute_id) {
+                    this.analysisrules.splice(index, 1)
+                }
             })
         },
         data() {

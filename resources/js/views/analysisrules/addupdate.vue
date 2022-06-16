@@ -82,7 +82,6 @@
     import Multiselect from 'vue-multiselect'
 
     import AnalysisruleBus from "./analysisruleBus";
-    import DynamicattributeBus from "../dynamicattributes/attributeBus";
 
     class Analysisrule {
         constructor(analysisrule) {
@@ -158,7 +157,7 @@
                         this.loading = false
 
                         this.$swal({
-                            html: '<small>Analysisrule successfully created !</small>',
+                            html: '<small>Analysis Rule successfully created !</small>',
                             icon: 'success',
                             timer: 3000
                         }).then(() => {
@@ -175,10 +174,18 @@
 
                 this.analysisruleForm
                     .put(`/analysisrules/${this.analysisruleId}`,undefined)
-                    .then(updanalysisrule => {
+                    .then(analysisrule => {
                         this.loading = false
-                        AnalysisruleBus.$emit('analysisrule_updated', updanalysisrule)
-                        $('#addUpdateAnalysisrule').modal('hide')
+
+                        this.$swal({
+                            html: '<small>Analysis Rule successfully updated !</small>',
+                            icon: 'success',
+                            timer: 3000
+                        }).then(() => {
+                            AnalysisruleBus.$emit('analysisrule_updated', analysisrule)
+                            $('#addUpdateAnalysisrule').modal('hide')
+                        })
+
                     }).catch(error => {
                     this.loading = false
                 });

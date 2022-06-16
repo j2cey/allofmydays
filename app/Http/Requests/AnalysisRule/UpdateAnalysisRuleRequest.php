@@ -27,4 +27,18 @@ class UpdateAnalysisRuleRequest extends AnalysisRuleRequest
     {
         return AnalysisRule::updateRules($this->analysisrule);
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'alert_when_allowed' => $this->setCheckOrOptionValue($this->input('alert_when_allowed')),
+            'alert_when_broken' => $this->setCheckOrOptionValue($this->input('alert_when_broken')),
+            'analysisruletype' => $this->setAnalysisRuleType($this->input('analysisruletype'), 'id', true),
+        ]);
+    }
 }

@@ -12,7 +12,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _analysisruleBus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./analysisruleBus */ "./resources/js/views/analysisrules/analysisruleBus.js");
-/* harmony import */ var _dynamicattributes_attributeBus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dynamicattributes/attributeBus */ "./resources/js/views/dynamicattributes/attributeBus.js");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -102,7 +101,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
-
 var Analysisrule = /*#__PURE__*/_createClass(function Analysisrule(analysisrule) {
   _classCallCheck(this, Analysisrule);
 
@@ -178,7 +176,7 @@ var Analysisrule = /*#__PURE__*/_createClass(function Analysisrule(analysisrule)
         _this3.loading = false;
 
         _this3.$swal({
-          html: '<small>Analysisrule successfully created !</small>',
+          html: '<small>Analysis Rule successfully created !</small>',
           icon: 'success',
           timer: 3000
         }).then(function () {
@@ -193,10 +191,17 @@ var Analysisrule = /*#__PURE__*/_createClass(function Analysisrule(analysisrule)
       var _this4 = this;
 
       this.loading = true;
-      this.analysisruleForm.put("/analysisrules/".concat(this.analysisruleId), undefined).then(function (updanalysisrule) {
+      this.analysisruleForm.put("/analysisrules/".concat(this.analysisruleId), undefined).then(function (analysisrule) {
         _this4.loading = false;
-        _analysisruleBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('analysisrule_updated', updanalysisrule);
-        $('#addUpdateAnalysisrule').modal('hide');
+
+        _this4.$swal({
+          html: '<small>Analysis Rule successfully updated !</small>',
+          icon: 'success',
+          timer: 3000
+        }).then(function () {
+          _analysisruleBus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('analysisrule_updated', analysisrule);
+          $('#addUpdateAnalysisrule').modal('hide');
+        });
       })["catch"](function (error) {
         _this4.loading = false;
       });

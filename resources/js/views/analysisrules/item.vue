@@ -15,7 +15,7 @@
                         <a type="button" class="btn btn-tool" @click="collapseClicked()" data-toggle="collapse" data-parent="#rulelist" :href="'#collapse-rules-'+index">
                             <i :class="currentCollapseIcon"></i>
                         </a>
-                        <a type="button" class="btn btn-tool text-danger" @click="deleteRule(analysisrule.uuid, index)">
+                        <a type="button" class="btn btn-tool text-danger" @click="deleteRule(analysisrule, index)">
                             <i class="fa fa-trash"></i>
                         </a>
                     </span>
@@ -25,28 +25,30 @@
         </header>
         <!-- /.card-header -->
         <div :id="'collapse-rules-'+index" class="card-content panel-collapse collapse in">
-            <div class="form-group row">
-                <label for="rule_type" class="col-sm-2 col-form-label text-xs">Rule Type</label>
-                <div class="col-sm-10">
-                    <input readonly type="text" class="form-control form-control-sm border-0" style="background-color: white" id="rule_type" name="type" placeholder="Type" v-model="analysisrule.analysisruletype.name">
+            <form role="form">
+                <div class="form-group row">
+                    <label for="rule_type" class="col-sm-2 col-form-label text-xs">Rule Type</label>
+                    <div class="col-sm-10">
+                        <input readonly type="text" class="form-control form-control-sm border-0" style="background-color: white" id="rule_type" name="type" placeholder="Type" v-model="analysisrule.analysisruletype.name">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6">
-                    <input type="checkbox" class="custom-control-input" :id="'alert_when_allowed'+ analysisrule.id" name="alert_when_allowed" placeholder="Alert when allowed" v-model="analysisrule.alert_when_allowed">
-                    <label class="custom-control-label" :for="'alert_when_allowed' + analysisrule.id"><span class="text text-xs">Alert when Allowed <i class="far fa-bell"></i></span></label>
+                <div class="form-group row">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6">
+                        <input disabled type="checkbox" class="custom-control-input" :id="'alert_when_allowed'+ analysisrule.id" name="alert_when_allowed" placeholder="Alert when allowed" v-model="analysisrule.alert_when_allowed">
+                        <label class="custom-control-label" :for="'alert_when_allowed' + analysisrule.id"><span class="text text-xs">Alert when Allowed <i class="far fa-bell"></i></span></label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6">
+                        <input disabled type="checkbox" class="custom-control-input" :id="'alert_when_broken' + analysisrule.id" name="alert_when_broken" placeholder="Alert when allowed" v-model="analysisrule.alert_when_broken">
+                        <label class="custom-control-label" :for="'alert_when_broken' + analysisrule.id"><span class="text text-xs">Alert when Broken <i class="far fa-bell"></i></span></label>
+                    </div>
                 </div>
-                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success col-sm-6">
-                    <input readonly="" type="checkbox" class="custom-control-input" :id="'alert_when_broken' + analysisrule.id" name="alert_when_broken" placeholder="Alert when allowed" v-model="analysisrule.alert_when_broken">
-                    <label class="custom-control-label" :for="'alert_when_broken' + analysisrule.id"><span class="text text-xs">Alert when Broken <i class="far fa-bell"></i></span></label>
+                <div class="form-group row">
+                    <label for="description" class="col-sm-2 col-form-label text-xs">Description</label>
+                    <div class="col-sm-10">
+                        <input readonly type="text" class="form-control form-control-sm border-0" style="background-color: white" id="description" name="description" placeholder="Type" v-model="analysisrule.description">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="description" class="col-sm-2 col-form-label text-xs">Description</label>
-                <div class="col-sm-10">
-                    <input readonly type="text" class="form-control form-control-sm border-0" style="background-color: white" id="description" name="description" placeholder="Type" v-model="analysisrule.description">
-                </div>
-            </div>
+            </form>
 
             <status-show :model_type_prop="analysisrule.model_type" :model_id_prop="analysisrule.id" :status_prop="analysisrule.status"></status-show>
 
@@ -103,9 +105,9 @@
             AnalysisHighlights: () => import('../analysishighlights/list'),
         },
         mounted() {
-            RuleBus.$on('analysisrule_updated', (upd_data) => {
-                if (this.analysisrule.id === upd_data.rule.id) {
-                    this.updateRule(upd_data.rule)
+            RuleBus.$on('analysisrule_updated', (analysisrule) => {
+                if (this.analysisrule.id === analysisrule.id) {
+                    this.updateRule(analysisrule)
                 }
             })
 
@@ -165,40 +167,37 @@
                 this.$emit('create_new_highlight', { analysisrule })
             },
             editRule(analysisrule) {
-                axios.get(`/analysisrules.fetchbystep/${analysisrule.workflow_step_id}`)
-                    .then((resp => {
-                        RuleBus.$emit('analysisrule_edit', analysisrule, resp.data);
-                    }));
+                RuleBus.$emit('edit_analysisrule', { analysisrule });
             },
             updateRule(analysisrule) {
                 this.analysisrule = analysisrule
             },
-            deleteRule(id, key) {
+            deleteRule(analysisrule, index) {
+
                 this.$swal({
-                    html: '<small>Voulez-vous vraiment supprimer cette Rule ?</small>',
+                    title: '<small>Are you sure ?</small>',
+                    text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Oui',
-                    cancelButtonText: 'Non'
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if(result.value) {
-                        axios.delete(`/analysisrules/${id}`)
+
+                        axios.delete(`/analysisrules/${analysisrule.uuid}`)
                             .then(resp => {
-                                let rule = resp.data.rule
-                                let step = resp.data.step
-                                console.log('analysisrules delete resp: ', resp)
                                 this.$swal({
-                                    html: '<small>Rule supprimée avec succès !</small>',
+                                    html: '<small>Aanalysis Rule successfully deleted !</small>',
                                     icon: 'success',
                                     timer: 3000
                                 }).then(() => {
-                                    RuleBus.$emit('analysisrule_deleted', {key, rule, step})
+                                    this.$parent.$emit('analysisrule_deleted', { analysisrule, index })
                                 })
                             }).catch(error => {
                             window.handleErrors(error)
                         })
-                    } else {
-                        // stay here
+
                     }
                 })
             },

@@ -42,8 +42,13 @@ __webpack_require__.r(__webpack_exports__);
         _this.addRuleToList(analysisrule);
       }
     });
-    _analysisruleBus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('analysisrule_deleted', function (add_data) {
-      _this.analysisrules.splice(add_data.key, 1);
+    this.$on('analysisrule_deleted', function (_ref) {
+      var analysisrule = _ref.analysisrule,
+          index = _ref.index;
+
+      if (_this.attributeId === analysisrule.dynamic_attribute_id) {
+        _this.analysisrules.splice(index, 1);
+      }
     });
   },
   data: function data() {
